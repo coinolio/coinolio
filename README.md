@@ -3,4 +3,9 @@
 
 Bitcoin and Altcoin trades logging and tracking. Including Profit / Loss calculations, Price Charts and realtime updates.
 
-## WIP
+# Contributing
+For anyone wishing to contribute to Coinolio please get in touch via Twitter [@matt_hojo](https://twitter.com/matt_hojo).
+
+# Copyright & License
+
+Copyright (c) 2018 [Matthew Harrison-Jones](https://github.com/matthojo) - Released under the [MIT license](LICENSE).
