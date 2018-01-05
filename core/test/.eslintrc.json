@@ -1,0 +1,25 @@
+{
+  "env": {
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "extends": "google",
+  "rules": {
+    "no-warning-comments": 0,
+    "comma-dangle": ["error", "never"],
+    "no-var": 0,
+    "camelcase": [2, {"properties": "never"}],
+    "func-call-spacing": ["error", "never"],
+    "keyword-spacing": ["error", { "before": true }],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "curly": ["error"],
+    "arrow-parens": ["error", "always"],
+    "valid-jsdoc": ["warn", {
+      "requireParamDescription": false,
+      "requireReturnDescription": false,
+      "requireReturn": false,
+      "prefer": {"returns": "returns"}
+    }]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "coinolio",
+  "version": "1.0.0",
+  "description": "Bitcoin and Altcoin trades logging and tracking. Including Profit / Loss calculations, Price Charts and realtime updates.",
+  "author": "Matthew Harrison-Jones <https://github.com/matthojo>",
+  "homepage": "http://coinolio.org",
+  "main": "./core/index",
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "^6.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coinolio/coinolio.git"
+  },
+  "keywords": [
+    "coinolio",
+    "cryptocurrency",
+    "portfolio",
+    "tracking"
+  ],
+  "license": "MIT",
+  "bugs": "https://github.com/coinolio/coinolio/issues",
+  "contributors": [
+    "https://github.com/coinolio/coinolio/graphs/contributors"
+  ],
+  "devDependencies": {
+    "eslint": "^4.14.0",
+    "eslint-config-google": "^0.9.1"
+  }
+}
