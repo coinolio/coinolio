@@ -41,7 +41,7 @@ Session.vim
 /core/server/data/export/exported*
 /content/tmp/*
 /content/logs/*
-/content/exchanges/**/*
+!/content/logs/README.md
 !/README.md
 
 # Test generated files
