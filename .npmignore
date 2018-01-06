@@ -22,7 +22,7 @@ core/built/**/*.map
 core/built/**/test-*
 core/built/**/tests-*
 core/client/**
-core/test/**
+core/server/__tests__/**
 CONTRIBUTING.md
 SECURITY.md
 .travis.yml

@@ -45,7 +45,7 @@ Session.vim
 !/README.md
 
 # Test generated files
-/core/server/test/coverage
+/core/server/coverage
 
 # ignore all custom json files for config
 /config.*.json

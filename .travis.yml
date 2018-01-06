@@ -13,7 +13,7 @@ after_success:
         if [[$TRAVIS_NODE_VERSION" = "6" ]]; then
           echo "Generate coverage..."
           npm install -g codeclimate-test-reporter
-          codeclimate-test-reporter < core/server/test/coverage/lcov.info
+          codeclimate-test-reporter < core/server/coverage/lcov.info
         else
           echo "False DB and NODE_VERSION. No coverage generated."
         fi
