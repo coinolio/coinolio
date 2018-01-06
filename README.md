@@ -4,6 +4,8 @@
 Bitcoin and Altcoin trades logging and tracking. Including Profit / Loss calculations, Price Charts and realtime updates.
 
 # Contributing
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/coinolio/coinolio.svg)](https://greenkeeper.io/)
 For anyone wishing to contribute to Coinolio please get in touch via Twitter [@matt_hojo](https://twitter.com/matt_hojo).
 
 # Copyright & License
