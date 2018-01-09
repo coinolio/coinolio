@@ -1,4 +1,4 @@
-const bittrex = require('../');
+const bittrex = require('../')({});
 
 describe('Exchange class', () => {
   it('should contain coorect methods', () => {

@@ -1,4 +1,4 @@
-const Exchange = require('../../../core/server/src/models/Exchange.js');
+const Exchange = require('../../models/Exchange.js');
 
 const debug = require('debug')('Exchange:Bittrex');
 const bittrexAPI = require('node-bittrex-api');
@@ -16,13 +16,13 @@ class Bittrex extends Exchange {
    */
   preInit() {
     debug('Setting up connection');
-    if (!process.env.BITTREX_KEY || !process.env.BITTREX_SECRET) {
+    if (!this.options.key || !this.options.secret) {
       this.handleError('Invalid API key or secret');
     }
 
     this.connection.options({
-      apikey: process.env.BITTREX_KEY,
-      apisecret: process.env.BITTREX_SECRET,
+      apikey: this.options.key,
+      apisecret: this.options.secret,
       verbose: true,
       cleartext: false
     });
@@ -66,6 +66,8 @@ class Bittrex extends Exchange {
   }
 };
 
-const bittrex = new Bittrex('Bittrex', {}, bittrexAPI);
+const bittrex = (options) => {
+  return new Bittrex('Bittrex', options, bittrexAPI);
+};
 
 module.exports = bittrex;
