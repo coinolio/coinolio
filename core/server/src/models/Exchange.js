@@ -32,7 +32,7 @@ class Exchange {
   }
 
   /**
-   * Ran before initialising exchnage.
+   * Ran before initialising exchange.
    *
    * @memberof Exchange
    */
@@ -42,25 +42,45 @@ class Exchange {
   }
 
   /**
-   * Get exchange cryptocurrency balances.
+   * Fetch exchange cryptocurrency balances.
    *
+   * @memberof Exchange
+   */
+  fetchBalances() {
+    debug(`'fetchBalances' method not setup for ${this.name} exchange`);
+  }
+
+  /**
+   * Get current balances in class.
+   *
+   * @returns {Array} - The balances array.
    * @memberof Exchange
    */
   getBalances() {
-    debug(`'getBalances' method not setup for ${this.name} exchange`);
+    return this.balances;
   }
 
   /**
-   * Get market trade history
+   * Fetch market trade history.
    *
    * @memberof Exchange
    */
-  getMarketHistory() {
-    debug(`'getMarketHistory' method not setup for ${this.name} exchange`);
+  fetchMarketHistory() {
+    debug(`'fetchMarketHistory' method not setup for ${this.name} exchange`);
   }
 
   /**
-   * Destroy this connection
+   * Get current market trade history in class.
+   *
+   * @returns {Array} - The market history array.
+   * @memberof Exchange
+   */
+  getMarketHistory() {
+    return this.marketHistory;
+  }
+
+  /**
+   * Destroy this connection.
    *
    * @memberof Exchange
    */

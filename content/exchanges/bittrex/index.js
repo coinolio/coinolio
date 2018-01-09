@@ -29,12 +29,12 @@ class Bittrex extends Exchange {
   }
 
   /**
-   * Get Bittrex balances
+   * Fetch Bittrex balances
    *
    * @memberof Bittrex
    */
-  getBalances() {
-    debug('Getting balances');
+  fetchBalances() {
+    debug('Fetching balances');
 
     this.connection.getbalances((data, err) => {
       if (err) {
@@ -53,12 +53,12 @@ class Bittrex extends Exchange {
   }
 
   /**
-   * Get market trade history
+   * Fetch market trade history
    *
    * @memberof Bittrex
    */
-  getMarketHistory() {
-    debug('Getting market history');
+  fetchMarketHistory() {
+    debug('Fetching market history');
 
     this.connection.getorderhistory({}, (data, err) => {
       this.marketHistory = trades;
