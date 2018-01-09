@@ -3,7 +3,6 @@
  */
 
 const debug = require('debug')('server:index');
-const exchanges = require('./src/controllers/exchanges.js');
 const server = require('./src/server.js');
 const db = require('./src/db.js');
 // import errors from './errors';
@@ -17,15 +16,10 @@ function init() {
 
   const port = process.env.PORT || 8080;
   const host = process.env.HOSTNAME || '0.0.0.0';
-  let serverInsance;
 
-  exchanges.init()
-    .then(() => {
-      // Launch Node.js server
-      serverInsance = server.listen(port, host, () => {
-        console.log(`Coinolio API server is listening on http://${host}:${port}/`);
-      });
-    });
+  const serverInsance = server.listen(port, host, () => {
+    console.log(`Coinolio API server is listening on http://${host}:${port}/`);
+  });
 
   /**
    * Gracefully shutdown server

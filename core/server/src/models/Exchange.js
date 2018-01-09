@@ -1,5 +1,4 @@
 const debug = require('debug')('Exchange:Base');
-const Promise = require('bluebird');
 /**
  * EXCHANGE CLASS
  */
@@ -24,16 +23,12 @@ class Exchange {
   /**
    * Initialise exchange
    *
-   * @returns {Promise}
    * @memberof Exchange
    */
   init() {
     debug(`Initialising exchange.. ${this.name || ''}`);
 
-    return new Promise((resolve, reject) => {
-      this.preInit();
-      resolve();
-    });
+    this.preInit();
   }
 
   /**

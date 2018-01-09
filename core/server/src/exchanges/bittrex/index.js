@@ -1,3 +1,5 @@
+const Promise = require('bluebird');
+
 const Exchange = require('../../models/Exchange.js');
 
 const debug = require('debug')('Exchange:Bittrex');
@@ -16,8 +18,10 @@ class Bittrex extends Exchange {
    */
   preInit() {
     debug('Setting up connection');
+
     if (!this.options.key || !this.options.secret) {
       this.handleError('Invalid API key or secret');
+      return;
     }
 
     this.connection.options({
@@ -31,23 +35,29 @@ class Bittrex extends Exchange {
   /**
    * Fetch Bittrex balances
    *
+   * @returns {Pormise}
    * @memberof Bittrex
    */
   fetchBalances() {
     debug('Fetching balances');
 
-    this.connection.getbalances((data, err) => {
-      if (err) {
-        return this.handleError(err);
-      }
+    return new Promise((resolve, reject) => {
+      this.connection.getbalances((data, err) => {
+        if (err) {
+          this.handleError(err);
+          return reject(err);
+        }
 
-      const filterZeros = data.result.filter((val) => {
-        return val.Available > 0;
-      });
+        const filterZeros = data.result.filter((val) => {
+          return val.Available > 0;
+        });
 
-      this.balances = filterZeros;
-      this.availableCurrencies = filterZeros.map((val) => {
-        return val.Currency;
+        this.balances = filterZeros;
+        this.availableCurrencies = filterZeros.map((val) => {
+          return val.Currency;
+        });
+
+        resolve(this);
       });
     });
   }
@@ -55,13 +65,16 @@ class Bittrex extends Exchange {
   /**
    * Fetch market trade history
    *
+   * @returns {Pormise}
    * @memberof Bittrex
    */
   fetchMarketHistory() {
     debug('Fetching market history');
 
-    this.connection.getorderhistory({}, (data, err) => {
-      this.marketHistory = trades;
+    return new Promise((resolve, reject) => {
+      this.connection.getorderhistory({}, (data, err) => {
+        this.marketHistory = trades;
+      });
     });
   }
 };

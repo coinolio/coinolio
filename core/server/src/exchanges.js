@@ -11,12 +11,15 @@ const exchanges = {
   init() {
     debug('Initialising exchanges');
     return new Promise((resolve, reject) => {
-      bittrex.init()
+      return bittrex.init()
         .then(() => {
-          resolve();
-        });
+          bittrex.fetchBalances();
+        })
+        .then(resolve);
     });
-  }
+  },
+
+  bittrex: bittrex
 };
 
 module.exports = exchanges;
