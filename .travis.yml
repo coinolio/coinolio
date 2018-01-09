@@ -7,16 +7,11 @@ sudo: false
 cache:
   directories:
     - node_modules
-after_success:
-  - |
-      if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-        if [[$TRAVIS_NODE_VERSION" = "6" ]]; then
-          echo "Generate coverage..."
-          npm install -g codeclimate-test-reporter
-          codeclimate-test-reporter < core/server/coverage/lcov.info
-        else
-          echo "False DB and NODE_VERSION. No coverage generated."
-        fi
-      else
-        echo "This is a PR. No coverage generated."
-      fi
+global:
+    - CC_TEST_REPORTER_ID=65cb1de293991a0fb25b4d9ec9d71a75c898b7007328d87a3fb3739932f14b6c
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
