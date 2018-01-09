@@ -10,8 +10,9 @@ cache:
 global:
     - CC_TEST_REPORTER_ID=65cb1de293991a0fb25b4d9ec9d71a75c898b7007328d87a3fb3739932f14b6c
 before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./core/server/cc-test-reporter
+  - chmod +x ./core/server/cc-test-reporter
+  - ./core/server/cc-test-reporter before-build
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - cd core/server/
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT -r 65cb1de293991a0fb25b4d9ec9d71a75c898b7007328d87a3fb3739932f14b6c
