@@ -3,12 +3,18 @@
  */
 
 const knex = require('knex');
+const config = require('./config');
 
-const db = knex({
+const bookshelf = require('bookshelf')(knex({
   client: 'pg',
-  connection: process.env.DATABASE_URL,
-  database: 'coinolio',
+  connection: config.host,
+  database: config.location,
+  migrations: {
+    tableName: 'migrations'
+  },
   debug: process.env.DATABASE_DEBUG === 'true'
-});
+}));
+bookshelf.plugin('registry');
+bookshelf.plugin(require('bookshelf-modelbase').pluggable);
 
-module.exports = db;
+module.exports = bookshelf;

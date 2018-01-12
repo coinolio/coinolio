@@ -48,6 +48,7 @@
     "debug": "^3.1.0",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "http-status": "^1.0.1",
     "knex": "^0.14.2",
     "node-bittrex-api": "^0.8.1",
     "pg": "^7.4.1",

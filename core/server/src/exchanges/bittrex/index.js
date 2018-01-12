@@ -1,6 +1,6 @@
 const Promise = require('bluebird');
 
-const Exchange = require('../../models/Exchange.js');
+const Exchange = require('../Exchange.js');
 
 const debug = require('debug')('Exchange:Bittrex');
 const bittrexAPI = require('node-bittrex-api');
