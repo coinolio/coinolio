@@ -50,6 +50,8 @@
     "express-session": "^1.15.6",
     "http-status": "^1.0.1",
     "knex": "^0.14.2",
+    "kue": "^0.11.6",
+    "kue-scheduler": "^0.7.4",
     "node-bittrex-api": "^0.8.1",
     "pg": "^7.4.1",
     "pretty-error": "^2.1.1",

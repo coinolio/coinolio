@@ -24,11 +24,14 @@ class Exchange {
    * Initialise exchange
    *
    * @memberof Exchange
+   * @returns {Promise}
    */
   init() {
-    debug(`Initialising exchange.. ${this.name || ''}`);
-
-    this.preInit();
+    return new Promise((resolve, reject) => {
+      debug(`Initialising exchange.. ${this.name || ''}`);
+      this.preInit();
+      resolve();
+    });
   }
 
   /**
