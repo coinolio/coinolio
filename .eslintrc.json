@@ -8,6 +8,7 @@
     "no-warning-comments": 0,
     "comma-dangle": ["error", "never"],
     "no-var": 0,
+    "new-cap": 0,
     "camelcase": [2, {"properties": "never"}],
     "func-call-spacing": ["error", "never"],
     "keyword-spacing": ["error", { "before": true }],

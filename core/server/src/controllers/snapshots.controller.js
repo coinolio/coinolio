@@ -48,7 +48,6 @@ function update(req, res, next) {
  * @param {Function} next - Called when complete.
  */
 function list(req, res, next) {
-
   Snapshots.list()
     .then((snapshots) => res.json(snapshots))
     .catch((e) => next(e));

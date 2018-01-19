@@ -22,7 +22,10 @@ const Snapshot = db.Model.extend({
           snapshot = snapshot.toJSON({omitPivot: true});
           return snapshot;
         }
-        const err = new APIError('No such snapshot exists!', httpStatus.NOT_FOUND);
+        const err = new APIError(
+          'No such snapshot exists!',
+          httpStatus.NOT_FOUND
+        );
         return Promise.reject(err);
       });
   }
@@ -60,9 +63,6 @@ const Snapshots = db.Collection.extend({
   }
 });
 
-function sizeURL(path, size) {
-  return path.replace('{s}', size);
-};
 module.exports = {
   Snapshot: db.model('Snapshot', Snapshot),
   Snapshots: db.collection('Snapshots', Snapshots)

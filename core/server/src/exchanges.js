@@ -9,13 +9,6 @@ const pickBy = require('lodash.pickby');
 const config = require('./config/index');
 const Snapshot = require('./models/snapshot.model').Snapshot;
 
-
-// Exchanges
-const bittrex = new ccxt.bittrex({
-  apiKey: process.env.BITTREX_KEY,
-  secret: process.env.BITTREX_SECRET
-});
-
 const activeExchanges = [
   {
     name: 'bittrex',
@@ -40,7 +33,6 @@ const exchanges = {
       resolve();
     });
   },
-  bittrex: bittrex,
 
   listen() {
     debug('Listening for events');
