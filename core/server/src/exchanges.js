@@ -56,44 +56,69 @@ const exchanges = {
           res = JSON.parse(res);
           const BTCPrice = res.bpi[config.currency].rate_float;
 
-          debug('Fetching all exchange balances');
           const balancePromises = [];
+          debug('Fetching all exchange tickers');
           Object.keys(exchangeConnections).forEach((exchange) => {
-            balancePromises.push(
-              exchangeConnections[exchange].fetchBalance()
-                .then((balances) => {
-                  return new Promise.resolve({
-                    name: exchange,
-                    balances: pickBy(balances.total, (val) => {
-                      return val > 0;
-                    })
-                  });
-                })
-            );
-            Promise.all(balancePromises)
-              .then((res) => {
-                const snapshotPromises = [];
-                for (let i=0; i < res.length; i++) {
-                  const entry = res[i];
-                  snapshotPromises.push(Snapshot.create(
-                    {
-                      exchange: entry.name,
-                      snapshot: {
-                        balances: entry.balances,
-                        BTC: {
-                          price: BTCPrice,
-                          currency: config.currency
-                        },
-                        totalAssetValue: 00
+            exchangeConnections[exchange].fetchTickers()
+              .then((tickers) => {
+                let totalAssetValue = 0;
+                balancePromises.push(
+                  exchangeConnections[exchange]
+                    .fetchBalance()
+                    .then((balances) => {
+                      const parsedBalances = pickBy(balances.total, (val) => {
+                        return val > 0;
+                      });
+
+                      for (let key in parsedBalances) {
+                        if (parsedBalances.hasOwnProperty(key)) {
+                          const val = tickers[`${key}/BTC`];
+                          if (val) {
+                            totalAssetValue += (val.last * parsedBalances[key]);
+                          }
+                        }
                       }
+                      // Add BTC
+                      totalAssetValue += parsedBalances['BTC'];
+
+                      return new Promise.resolve({
+                        name: exchange,
+                        balances: parsedBalances,
+                        totalAssetValue: totalAssetValue
+                      });
                     })
-                    .then(() => {
-                      debug(`${res[i].name} snapshot created`);
-                    }));
-                }
-                Promise.all(snapshotPromises)
+                );
+
+                debug('Fetching all exchange balances');
+                Promise.all(balancePromises)
                   .then((res) => {
-                    return resolve(res);
+                    const snapshotPromises = [];
+                    for (let i=0; i < res.length; i++) {
+                      const entry = res[i];
+                      snapshotPromises.push(Snapshot.create(
+                        {
+                          exchange: entry.name,
+                          snapshot: {
+                            balances: entry.balances,
+                            BTC: {
+                              price: BTCPrice,
+                              currency: config.currency
+                            },
+                            totalAssetValue: entry.totalAssetValue
+                          }
+                        })
+                        .then(() => {
+                          debug(`${res[i].name} snapshot created`);
+                        }));
+                    }
+                    Promise.all(snapshotPromises)
+                      .then((res) => {
+                        return resolve(res);
+                      })
+                      .catch((e) => {
+                        console.error(e);
+                        return reject(e);
+                      });
                   })
                   .catch((e) => {
                     console.error(e);
