@@ -56,7 +56,9 @@ function list(req, res, next) {
 
 /**
  * Delete snapshot.
- * @return {Snapshot}
+ * @param {*} req - Number of snapshots to be skipped.
+ * @param {*} res - Limit number of snapshots to be returned.
+ * @param {Function} next - Called when complete.
  */
 function remove(req, res, next) {
   const snapshot = req.snapshot;
@@ -65,4 +67,4 @@ function remove(req, res, next) {
     .catch((e) => next(e));
 }
 
-module.exports = {load, get, create, update, list, remove};
+module.exports = {get, create, update, list, remove};

@@ -1,12 +1,11 @@
-import Promise from 'bluebird';
-import bookshelf from '../../config/bookshelf';
-import httpStatus from 'http-status';
-import ImgixClient from 'imgix-core-js';
-import APIError from '../helpers/APIError';
+const Promise = require('bluebird');
+const db = require('../db');
+const httpStatus = require('http-status');
+const APIError = ('../utils/errors').APIError;
 
-const Snapshot = bookshelf.Model.extend({
+const Snapshot = db.Model.extend({
   tableName: 'snapshots',
-  hasTimestamps: true,
+  hasTimestamps: true
 }, {
   /**
    * Get snapshot
@@ -29,7 +28,7 @@ const Snapshot = bookshelf.Model.extend({
   }
 });
 
-const Snapshots = bookshelf.Collection.extend({
+const Snapshots = db.Collection.extend({
   model: Snapshot
 }, {
   /**
@@ -65,6 +64,6 @@ function sizeURL(path, size) {
   return path.replace('{s}', size);
 };
 module.exports = {
-  Snapshot: bookshelf.model('Snapshot', Snapshot),
-  Snapshots: bookshelf.collection('Snapshots', Snapshots)
+  Snapshot: db.model('Snapshot', Snapshot),
+  Snapshots: db.collection('Snapshots', Snapshots)
 };

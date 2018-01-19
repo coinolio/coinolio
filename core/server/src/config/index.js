@@ -4,5 +4,6 @@ module.exports = {
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
     location: process.env.DATABASE_LOCATION || 'coinolio'
-  }
+  },
+  currency: process.env.CURRENCY || 'USD'
 };

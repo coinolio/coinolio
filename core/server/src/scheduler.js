@@ -14,19 +14,17 @@ const queue = kue.createQueue({
 */
 function init() {
   debug('Initialising...');
-  const getBalance = queue
-    .createJob('getBalance')
-    .attempts(3)
-    .backoff(true)
+  const createSnapshot = queue
+    .createJob('createSnapshot')
     .priority('normal')
-    .unique('getBalance');
+    .unique('createSnapshot');
 
   // Initial launch jobs
-  queue.now(getBalance);
+  queue.now(createSnapshot);
 
 
   // Scheduled jobs
-  queue.every('*/1 * * * *', getBalance);
+  queue.every('*/1 * * * *', createSnapshot);
 }
 
 /**

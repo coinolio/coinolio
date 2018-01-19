@@ -9,6 +9,6 @@ router.route('/')
 
 router.route('/:snapshotId')
   /** GET /api/snapshots/:snapshotId - Get snapshot */
-  .get(snapshotCtrl.get);
+  .get(snapshotsCtrl.get);
 
 module.exports = router;

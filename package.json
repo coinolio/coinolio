@@ -56,6 +56,8 @@
     "node-bittrex-api": "^0.8.1",
     "pg": "^7.4.1",
     "pretty-error": "^2.1.1",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
   }
 }

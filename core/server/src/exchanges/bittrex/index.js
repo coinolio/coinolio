@@ -56,7 +56,7 @@ class Bittrex extends Exchange {
         this.availableCurrencies = filterZeros.map((val) => {
           return val.Currency;
         });
-
+        debug('Balances fetched');
         resolve(this);
       });
     });

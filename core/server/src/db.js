@@ -7,8 +7,12 @@ const config = require('./config');
 
 const bookshelf = require('bookshelf')(knex({
   client: 'pg',
-  connection: config.host,
-  database: config.location,
+  connection: {
+    host: config.database.host,
+    user: config.database.user,
+    password: config.database.password,
+    database: config.database.location
+  },
   migrations: {
     tableName: 'migrations'
   },
