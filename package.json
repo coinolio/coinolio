@@ -42,6 +42,9 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
+    "bookshelf": "^0.12.1",
+    "bookshelf-modelbase": "^2.10.4",
+    "ccxt": "^1.10.775",
     "compression": "^1.7.1",
     "connect-redis": "^3.3.3",
     "cookie-parser": "^1.4.3",
@@ -53,7 +56,7 @@
     "knex": "^0.14.2",
     "kue": "^0.11.6",
     "kue-scheduler": "^0.7.4",
-    "node-bittrex-api": "^0.8.1",
+    "lodash.pickby": "^4.6.0",
     "pg": "^7.4.1",
     "pretty-error": "^2.1.1",
     "redis": "^2.8.0",

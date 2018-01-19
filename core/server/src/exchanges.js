@@ -2,35 +2,42 @@ const debug = require('debug')('exchanges');
 const Promise = require('bluebird');
 const kue = require('kue-scheduler');
 const queue = kue.createQueue();
-const request = require('request-promise')
+const request = require('request-promise');
+const ccxt = require('ccxt');
+const pickBy = require('lodash.pickby');
 
 const config = require('./config/index');
 const Snapshot = require('./models/snapshot.model').Snapshot;
 
 
 // Exchanges
-const bittrex = require('./exchanges/bittrex')({
-  key: process.env.BITTREX_KEY,
+const bittrex = new ccxt.bittrex({
+  apiKey: process.env.BITTREX_KEY,
   secret: process.env.BITTREX_SECRET
 });
 
 const activeExchanges = [
-  bittrex
+  {
+    name: 'bittrex',
+    apiKey: process.env.BITTREX_KEY,
+    secret: process.env.BITTREX_SECRET
+  }
 ];
+
+const exchangeConnections = {};
 
 const exchanges = {
   init() {
-    debug('Initialising exchanges');
     return new Promise((resolve, reject) => {
-      const initPromises = [];
+      debug('Initialising exchanges');
       activeExchanges.forEach((e) => {
-        initPromises.push(e.init());
-      });
-      return Promise.all(initPromises)
-        .then(() => {
-          this.listen();
-          resolve();
+        exchangeConnections[e.name] = new ccxt[e.name]({
+          apiKey: e.apiKey,
+          secret: e.secret
         });
+      });
+      this.listen();
+      resolve();
     });
   },
   bittrex: bittrex,
@@ -40,7 +47,12 @@ const exchanges = {
     queue.process('createSnapshot', (job, done) => {
       debug('"createSnapshot" event fired');
       this.createSnapshot()
-        .then(done);
+        .then(() => {
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
     });
   },
 
@@ -54,8 +66,18 @@ const exchanges = {
 
           debug('Fetching all exchange balances');
           const balancePromises = [];
-          activeExchanges.forEach((e) => {
-            balancePromises.push(e.fetchBalances());
+          Object.keys(exchangeConnections).forEach((exchange) => {
+            balancePromises.push(
+              exchangeConnections[exchange].fetchBalance()
+                .then((balances) => {
+                  return new Promise.resolve({
+                    name: exchange,
+                    balances: pickBy(balances.total, (val) => {
+                      return val > 0;
+                    })
+                  });
+                })
+            );
             Promise.all(balancePromises)
               .then((res) => {
                 const snapshotPromises = [];
