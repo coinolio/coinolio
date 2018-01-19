@@ -21,7 +21,7 @@ function init() {
     .then(() => {
       scheduler.init();
     });
-  const serverInstance = server.listen(port, host, () => {
+  server.listen(port, host, () => {
     console.log(`Coinolio API server is listening on http://${host}:${port}/`);
   });
 
@@ -33,21 +33,23 @@ function init() {
    */
   function handleExit(options, err) {
     if (options.cleanup) {
-      const actions = [serverInstance.close, db.destroy, scheduler.stop];
-      actions.forEach((close, i) => {
-        try {
-          close(() => {
-            if (i === actions.length - 1) process.exit();
-          });
-        } catch (err) {
-          if (i === actions.length - 1) process.exit();
-        }
-      });
+      const actions = [scheduler.stop, db.destroy];
+      Promise.all(actions)
+        .then(() => {
+          process.exit();
+        })
+        .catch((err) => {
+          console.error(err);
+          process.exit();
+        });
     }
     if (err) {
       debug(err);
     }
-    if (options.exit) process.exit();
+    if (options.exit) {
+      debug('Force quit');
+      process.exit();
+    }
   }
 
   process.on('exit', handleExit.bind(null, {cleanup: true}));

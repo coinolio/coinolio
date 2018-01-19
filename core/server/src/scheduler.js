@@ -29,14 +29,23 @@ function init() {
 
 /**
  * Stop scheduler and clear backlog
- * @param {Function} cb - The callback when stopping complete.
+ * @return {Promise}
  */
-function stop(cb) {
-  debug('Stopping...');
-  queue.clear((error, response) => {
-    debug('Scheduler cleared');
-    cb();
+function stop() {
+  return new Promise((resolve, reject) => {
+    debug('Stopping...');
+    queue.shutdown(1000, function(err) {
+      if (err) {
+        return reject(err);
+      }
+      debug('Scheduler cleared', response);
+      resolve();
+    });
   });
+  // queue.clear((error, response) => {
+  //   debug('Scheduler cleared', response);
+  //   cb(error);
+  // });
 }
 
 module.exports = {
