@@ -10,7 +10,8 @@
     "unit": "jest --testEnvironment=node --coverage --coverageDirectory=\"core/server/coverage\" --forceExit",
     "coverage": "mocha core/server/test/**/*.spec.js --reporter spec",
     "lint": "eslint --ext .js core",
-    "test": "npm run lint && npm run unit"
+    "test": "npm run lint && npm run unit",
+    "migrate": "knex migrate:latest --knexfile core/server/src/knexfile.js"
   },
   "engines": {
     "node": "^6.9.0"
