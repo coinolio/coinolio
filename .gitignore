@@ -43,7 +43,7 @@ Session.vim
 /content/logs/*
 !/content/logs/README.md
 !/README.md
-
+/db_data
 # Test generated files
 /core/server/coverage
 

@@ -11,7 +11,7 @@
     "coverage": "mocha core/server/test/**/*.spec.js --reporter spec",
     "lint": "eslint --ext .js core",
     "test": "npm run lint && npm run unit",
-    "migrate": "knex migrate:latest --knexfile core/server/src/knexfile.js"
+    "migrate": "knex migrate:latest"
   },
   "engines": {
     "node": "^6.9.0"
