@@ -1,11 +1,12 @@
 /**
  * AWAY WE GO!
  */
-
 const debug = require('debug')('scheduler');
-const kue = require('kue-scheduler');
-const queue = kue.createQueue({
+const queue = require('./redis').queue;
 
+
+queue.on('error', (err) => {
+  debug('Kue error', err);
 });
 // import errors from './errors';
 
@@ -24,7 +25,7 @@ function init() {
 
 
   // Scheduled jobs
-  queue.every('*/1 * * * *', createSnapshot);
+  queue.every('*/2 * * * *', createSnapshot);
 }
 
 /**

@@ -36,7 +36,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(
   session({
-    store: new (connectRedis(session))({client: redis}),
+    store: new (connectRedis(session))({client: redis.client}),
     name: 'sid',
     resave: true,
     saveUninitialized: true,
@@ -44,7 +44,7 @@ app.use(
   })
 );
 
-app.use(routes);
+app.use('/api', routes);
 
 const pe = new PrettyError();
 pe.skipNodeFiles();

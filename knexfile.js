@@ -1,5 +1,4 @@
 const config = require('./core/server/src/config');
-
 module.exports = {
   client: 'pg',
   connection: {

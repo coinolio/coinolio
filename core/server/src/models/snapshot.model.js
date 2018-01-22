@@ -38,28 +38,17 @@ const Snapshots = db.Collection.extend({
    * List snapshots in descending order of 'created_at' timestamp.
    * @param {number} skip - Number of snapshots to be skipped.
    * @param {number} limit - Limit number of snapshots to be returned.
-   * @return {Promise<Subscription[]>}
+   * @return {Promise}
    */
-  list({exchange = null} = {}) {
-    if (userId) {
-      return Snapshots
-        .query((qb) => {
-          qb
-            // .where({
-            //   'exchange': exchange
-            // })
-            .select();
-        })
-        .orderBy('created_at', 'DESC')
-        .fetch();
-    } else {
-      return Snapshots
-        .query((qb) => {
-          qb.select();
-        })
-        .orderBy('created_at', 'DESC')
-        .fetch();
-    }
+  list({exchange = null, limit = 60} = {}) {
+    return Snapshots
+      .query((qb) => {
+        qb
+          .limit(limit)
+          .select();
+      })
+      .orderBy('created_at', 'DESC')
+      .fetch();
   }
 });
 

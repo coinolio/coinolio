@@ -4,7 +4,7 @@ const router = new express.Router();
 const snapshotsRoutes = require('./snapshots.route');
 
 router.get('/', (req, res) => {
-  res.status(200).send('Welcome to Coinolio!');
+  res.status(200).send('Welcome to Coinolio API!');
 });
 
 // mount user routes at /snapshots

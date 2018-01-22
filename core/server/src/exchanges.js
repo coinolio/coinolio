@@ -1,7 +1,6 @@
 const debug = require('debug')('exchanges');
 const Promise = require('bluebird');
-const kue = require('kue-scheduler');
-const queue = kue.createQueue();
+const queue = require('./redis').queue;
 const request = require('request-promise');
 const ccxt = require('ccxt');
 const pickBy = require('lodash.pickby');
@@ -72,14 +71,19 @@ const exchanges = {
 
                       for (let key in parsedBalances) {
                         if (parsedBalances.hasOwnProperty(key)) {
+                          parsedBalances[key] = {
+                            total: parsedBalances[key]
+                          };
                           const val = tickers[`${key}/BTC`];
                           if (val) {
-                            totalAssetValue += (val.last * parsedBalances[key]);
+                            parsedBalances[key].valueBTC = (val.last * parsedBalances[key].total);
+                            totalAssetValue += parsedBalances[key].valueBTC;
                           }
                         }
                       }
                       // Add BTC
-                      totalAssetValue += parsedBalances['BTC'];
+                      parsedBalances['BTC'].valueBTC = parsedBalances['BTC'].total;
+                      totalAssetValue += parsedBalances['BTC'].valueBTC;
 
                       return new Promise.resolve({
                         name: exchange,

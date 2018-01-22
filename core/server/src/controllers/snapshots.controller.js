@@ -1,4 +1,4 @@
-const Snapshot = require('../models/snapshot.model');
+const {Snapshot, Snapshots} = require('../models/snapshot.model');
 
 /**
  * Get snapshot

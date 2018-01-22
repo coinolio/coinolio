@@ -4,6 +4,7 @@
 
 const debug = require('debug')('server:index');
 const server = require('./src/server');
+const redis = require('./src/redis');
 const exchanges = require('./src/exchanges');
 const scheduler = require('./src/scheduler');
 const db = require('./src/db');
@@ -33,7 +34,7 @@ function init() {
    */
   function handleExit(options, err) {
     if (options.cleanup) {
-      const actions = [scheduler.stop, db.destroy];
+      const actions = [scheduler.stop, db.destroy, redis.client.quit];
       Promise.all(actions)
         .then(() => {
           process.exit();
