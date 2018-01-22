@@ -10,13 +10,13 @@ services:
       - "8080:8080"
     depends_on:
       - db
-      - redis_db
+      - redis
     environment:
       DATABASE_URL: postgres://db
       DATABASE_USER: coinolio
       DATABASE_PASSWORD: test
       DATABASE_LOCATION: coinolio
-      REDIS_URL: redis://redis_db:6379
+      REDIS_URL: redis://redis:6379
       SESSION_SECRET: thisisasecretshhh
       DEBUG: '*'
     restart: on-failure
@@ -31,7 +31,7 @@ services:
       POSTGRES_USER: coinolio
       POSTGRES_PASSWORD: test
       POSTGRES_DB: coinolio
-  redis_db:
+  redis:
     image: redis:alpine
     hostname: redis
     restart: always

@@ -5,5 +5,6 @@ module.exports = {
     password: process.env.DATABASE_PASSWORD,
     location: process.env.DATABASE_LOCATION || 'coinolio'
   },
+  redis: process.env.REDIS_URL || 'redis://localhost:6379',
   currency: process.env.CURRENCY || 'USD'
 };
