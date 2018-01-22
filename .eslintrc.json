@@ -14,6 +14,7 @@
     "keyword-spacing": ["error", { "before": true }],
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "curly": ["error"],
+    "max-len": ["warn"],
     "arrow-parens": ["error", "always"],
     "valid-jsdoc": ["warn", {
       "requireParamDescription": false,
