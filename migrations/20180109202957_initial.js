@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
   // User accounts
   return Promise.all([
     knex.schema.createTable('snapshots', (table) => {
-      table.timestamp('time').primary();
+      table.timestamp('time').default(knex.fn.now()).primary();
       table.string('exchange').notNullable();
       table.json('snapshot').notNullable();
       table.timestamps(true, true);

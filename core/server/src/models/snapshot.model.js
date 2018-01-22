@@ -5,17 +5,18 @@ const APIError = ('../utils/errors').APIError;
 
 const Snapshot = db.Model.extend({
   tableName: 'snapshots',
+  idAttribute: 'time',
   hasTimestamps: true
 }, {
   /**
    * Get snapshot
-   * @param {ObjectId} id - The objectId of snapshot.
-   * @return {Promise<Snapshot, APIError>}
+   * @param {string} time - The timestamp of snapshot.
+   * @return {Promise}
    */
-  get(id) {
-    return Snapshot.findById(id,
+  get(time) {
+    return Snapshot.findWhere(
       {
-        require: true
+        time: time
       })
       .then((snapshot) => {
         if (snapshot) {
