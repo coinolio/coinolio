@@ -46,13 +46,4 @@ app.use(
 
 app.use('/api', routes);
 
-const pe = new PrettyError();
-pe.skipNodeFiles();
-pe.skipPackage('express');
-
-app.use((err, req, res, next) => {
-  process.stderr.write(pe.render(err));
-  next();
-});
-
 module.exports = app;
