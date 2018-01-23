@@ -9,8 +9,6 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const connectRedis = require('connect-redis');
 
-const PrettyError = require('pretty-error');
-
 const redis = require('./redis');
 const routes = require('./routes');
 
