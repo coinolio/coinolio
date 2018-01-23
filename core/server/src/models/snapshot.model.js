@@ -50,6 +50,26 @@ const Snapshots = db.Collection.extend({
       })
       .orderBy('created_at', 'DESC')
       .fetch();
+  },
+
+  /**
+   * Get list of asset values in intervals over a certain duration of hours
+   * @param {number} interval - The interval of data entried
+   * @param {number} duration - The duration of time analysed
+   * @return {Promise}
+   */
+  listInterval({interval = 10, duration = 24} = {}) {
+    return db.knex.raw(`
+      SELECT time_bucket('${interval} minutes', time) AS time_bucket_start,
+      COUNT(*) as entries,
+      MAX((snapshot->>'totalAssetValue')::numeric) AS max_assetValue,
+      MIN((snapshot->>'totalAssetValue')::numeric) AS min_assetValue,
+      AVG((snapshot->>'totalAssetValue')::numeric) AS avg_assetValue
+      FROM snapshots
+      WHERE time > NOW() - interval '${duration} hours'
+      GROUP BY time_bucket_start
+      ORDER BY time_bucket_start DESC, avg_assetValue DESC;
+    `);
   }
 });
 

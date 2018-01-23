@@ -7,6 +7,10 @@ router.route('/')
   /** GET /api/snapshots - Get list of snapshots */
   .get(snapshotsCtrl.list);
 
+router.route('/interval/:interval/:duration?')
+  /** GET /api/snapshots/interval/:interval/:duration? - Get list of snapshots in internals of minutes over duration of hours */
+  .get(snapshotsCtrl.listInterval);
+
 router.route('/:snapshotId')
   /** GET /api/snapshots/:snapshotId - Get snapshot */
   .get(snapshotsCtrl.get);

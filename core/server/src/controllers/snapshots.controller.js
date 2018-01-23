@@ -2,8 +2,8 @@ const {Snapshot, Snapshots} = require('../models/snapshot.model');
 
 /**
  * Get snapshot
- * @param {*} req - Number of snapshots to be skipped.
- * @param {*} res - Limit number of snapshots to be returned.
+ * @param {*} req
+ * @param {*} res
  * @returns {Snapshot}
  */
 function get(req, res) {
@@ -12,8 +12,8 @@ function get(req, res) {
 
 /**
  * Create new snapshot
- * @param {*} req - Number of snapshots to be skipped.
- * @param {*} res - Limit number of snapshots to be returned.
+ * @param {*} req
+ * @param {*} res
  * @param {Function} next - Called when complete.
  */
 function create(req, res, next) {
@@ -32,8 +32,8 @@ function create(req, res, next) {
 
 /**
  * Update existing snapshot.
- * @param {*} req - Number of snapshots to be skipped.
- * @param {*} res - Limit number of snapshots to be returned.
+ * @param {*} req
+ * @param {*} res
  * @param {Function} next - Called when complete.
  */
 function update(req, res, next) {
@@ -43,8 +43,8 @@ function update(req, res, next) {
 
 /**
  * Get snapshot list.
- * @param {*} req - Number of snapshots to be skipped.
- * @param {*} res - Limit number of snapshots to be returned.
+ * @param {*} req
+ * @param {*} res
  * @param {Function} next - Called when complete.
  */
 function list(req, res, next) {
@@ -54,9 +54,24 @@ function list(req, res, next) {
 }
 
 /**
+ * Get snapshot list by interval.
+ * @param {*} req
+ * @param {*} res
+ * @param {Function} next - Called when complete.
+ */
+function listInterval(req, res, next) {
+  Snapshots.listInterval({
+    interval: req.params.interval,
+    duration: req.params.duration
+  })
+    .then((snapshots) => res.json(snapshots.rows))
+    .catch((e) => next(e));
+}
+
+/**
  * Delete snapshot.
- * @param {*} req - Number of snapshots to be skipped.
- * @param {*} res - Limit number of snapshots to be returned.
+ * @param {*} req
+ * @param {*} res
  * @param {Function} next - Called when complete.
  */
 function remove(req, res, next) {
@@ -66,4 +81,4 @@ function remove(req, res, next) {
     .catch((e) => next(e));
 }
 
-module.exports = {get, create, update, list, remove};
+module.exports = {get, create, update, list, listInterval, remove};
