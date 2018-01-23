@@ -6,5 +6,6 @@ module.exports = {
     location: process.env.DATABASE_LOCATION || 'coinolio'
   },
   redis: process.env.REDIS_URL || 'redis://localhost:6379',
-  currency: process.env.CURRENCY || 'USD'
+  currency: process.env.CURRENCY || 'USD',
+  jwtSecret: process.env.TOKEN_SECRET
 };

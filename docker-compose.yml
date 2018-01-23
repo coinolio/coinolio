@@ -12,12 +12,14 @@ services:
       - db
       - redis
     environment:
+      NODE_ENV: production
       DATABASE_URL: postgres://db
       DATABASE_USER: coinolio
-      DATABASE_PASSWORD: test
+      DATABASE_PASSWORD: test # UPDATE
       DATABASE_LOCATION: coinolio
       REDIS_URL: redis://redis:6379
-      SESSION_SECRET: thisisasecretshhh
+      SESSION_SECRET: thisisasecretshhh # UPDATE
+      TOKEN_SECRET: thisisanothersecret # UPDATE
       DEBUG: '*'
     restart: on-failure
   db:
@@ -29,7 +31,7 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_USER: coinolio
-      POSTGRES_PASSWORD: test
+      POSTGRES_PASSWORD: test # UPDATE
       POSTGRES_DB: coinolio
   redis:
     image: redis:alpine
