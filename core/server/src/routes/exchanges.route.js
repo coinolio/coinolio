@@ -13,6 +13,10 @@ router.route('/')
   /** POST /api/exchanges - Create new exchange */
   .post(permissions.requireLogin, validate(paramValidation.createExchange), exchangesCtrl.create);
 
+router.route('/valid')
+  /** GET /api/exchanges/valid - Get list of valid exchange */
+  .get(exchangesCtrl.valid);
+
 router.route('/:exchangeId')
   /** GET /api/exchanges/:exchangeId - Get exchange */
   .get(permissions.requireLogin, exchangesCtrl.get)

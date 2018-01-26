@@ -1,5 +1,7 @@
 const {Exchange, Exchanges} = require('../models/exchange.model');
 const queue = require('../redis').queue;
+const ccxt = require('ccxt');
+const validExchanges = ccxt.exchanges;
 /**
  * Load exchange and append to req.
  * @param {*} req
@@ -33,6 +35,10 @@ function get(req, res) {
  * @param {Function} next - Called when complete.
  */
 function create(req, res, next) {
+  if (validExchanges.indexOf(req.body.name.toLowerCase()) === -1) {
+    next('Invalid exchange. Please see `/api/exchanges/valid` for a list.');
+    return;
+  }
   Exchange.create(
     {
       name: req.body.name,
@@ -60,6 +66,10 @@ function create(req, res, next) {
  * @param {Function} next - Called when complete.
  */
 function update(req, res, next) {
+  if (req.body.name && validExchanges.indexOf(req.body.name.toLowerCase()) === -1) {
+    next('Invalid exchange. Please see `/api/exchanges/valid` for a list.');
+    return;
+  }
   Exchange
     .update(req.body, {id: req.exchange.id})
     .then((savedExchange) => {
@@ -98,4 +108,15 @@ function remove(req, res, next) {
     .catch((e) => next(e));
 }
 
-module.exports = {load, get, create, update, list, remove};
+/**
+ * Return list of valid exchanges
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {Function} next - Called when complete.
+ */
+function valid(req, res, next) {
+  res.json(validExchanges);
+}
+
+module.exports = {load, get, create, update, list, remove, valid};

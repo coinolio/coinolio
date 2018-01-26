@@ -114,8 +114,10 @@ const exchanges = {
                           }
                         }
                         // Add BTC
-                        parsedBalances['BTC'].valueBTC = parsedBalances['BTC'].total;
-                        totalAssetValue += parsedBalances['BTC'].valueBTC;
+                        if (parsedBalances['BTC']) {
+                          parsedBalances['BTC'].valueBTC = parsedBalances['BTC'].total;
+                          totalAssetValue += parsedBalances['BTC'].valueBTC;
+                        }
 
                         return new Promise.resolve({
                           name: exchange,
