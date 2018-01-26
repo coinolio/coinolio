@@ -30,6 +30,27 @@ exports.up = function(knex, Promise) {
         table.json('config').notNullable();
         table.boolean('enabled');
         table.timestamps(true, true);
+      }),
+    knex.schema.createTableIfNotExists('trades',
+      (table) => {
+        table.string('tran_id').notNullable();
+        table.timestamp('datetime').notNullable().primary();
+        table.string('status');
+        table.string('symbolBuy').notNullable();
+        table.string('symbolSell').notNullable();
+        table.string('type');
+        table.string('side').notNullable();
+        table.float('price').notNullable();
+        table.float('amount').notNullable();
+        table.json('fee');
+        table.string('exchange').notNullable();
+        table.index('tran_id');
+      })
+      .then(() => {
+        return knex.raw(`CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE`);
+      })
+      .then(() =>{
+        return knex.raw(`SELECT create_hypertable('trades', 'datetime')`);
       })
   ]);
 };

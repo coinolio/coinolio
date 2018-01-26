@@ -2,6 +2,7 @@ const {Exchange, Exchanges} = require('../models/exchange.model');
 const queue = require('../redis').queue;
 const ccxt = require('ccxt');
 const validExchanges = ccxt.exchanges;
+
 /**
  * Load exchange and append to req.
  * @param {*} req

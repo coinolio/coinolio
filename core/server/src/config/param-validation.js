@@ -49,5 +49,47 @@ module.exports = {
     params: {
       exchangeId: Joi.string().required()
     }
+  },
+
+  // POST /api/trades
+  createTrade: {
+    body: {
+      tran_id: Joi.string().required(),
+      datetime: Joi.date().required(),
+      status: Joi.string(),
+      symbolBuy: Joi.string().required(),
+      symbolSell: Joi.string().required(),
+      type: Joi.string(),
+      side: Joi.string().required(),
+      price: Joi.number().required(),
+      amount: Joi.number().required(),
+      fee: Joi.object({
+        currency: Joi.string().required(),
+        cost: Joi.number().required()
+      }),
+      exchange: Joi.string().required()
+    }
+  },
+
+  // UPDATE /api/trades/:tradeId
+  updateTrade: {
+    body: {
+      datetime: Joi.date(),
+      status: Joi.string(),
+      symbolBuy: Joi.string(),
+      symbolSell: Joi.string(),
+      type: Joi.string(),
+      side: Joi.string(),
+      price: Joi.number(),
+      amount: Joi.number(),
+      fee: Joi.object({
+        currency: Joi.string().required(),
+        cost: Joi.number().required()
+      }),
+      exchange: Joi.string()
+    },
+    params: {
+      exchangeId: Joi.string()
+    }
   }
 };
