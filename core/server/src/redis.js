@@ -13,5 +13,8 @@ const queue = kue.createQueue({
 });
 
 client.on('error', errors.log); // eslint-disable-line no-console
+queue.on('schedule error', errors.log); // eslint-disable-line no-console
+// queue.on('already scheduled', errors.log); // eslint-disable-line no-console
+// queue.on('lock error', errors.log); // eslint-disable-line no-console
 
 module.exports = {client, queue};

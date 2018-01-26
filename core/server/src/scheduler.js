@@ -4,10 +4,6 @@
 const debug = require('debug')('scheduler');
 const queue = require('./redis').queue;
 
-
-queue.on('error', (err) => {
-  debug('Kue error', err);
-});
 // import errors from './errors';
 
 /**
@@ -34,19 +30,11 @@ function init() {
  */
 function stop() {
   return new Promise((resolve, reject) => {
-    debug('Stopping...');
-    queue.shutdown(1000, function(err) {
-      if (err) {
-        return reject(err);
-      }
-      debug('Scheduler cleared', response);
-      resolve();
+    queue.clear((error, response) => {
+      debug('Scheduler cleared...');
+      return resolve();
     });
   });
-  // queue.clear((error, response) => {
-  //   debug('Scheduler cleared', response);
-  //   cb(error);
-  // });
 }
 
 module.exports = {

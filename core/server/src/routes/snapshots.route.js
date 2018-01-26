@@ -16,4 +16,7 @@ router.route('/:snapshotId')
   /** GET /api/snapshots/:snapshotId - Get snapshot */
   .get(permissions.requireLogin, snapshotsCtrl.get);
 
+/** Load snapshot when API with snapshotId route parameter is hit */
+router.param('snapshotId', snapshotsCtrl.load);
+
 module.exports = router;

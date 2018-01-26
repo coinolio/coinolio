@@ -28,5 +28,26 @@ module.exports = {
       username: Joi.string().required(),
       password: Joi.string().required()
     }
+  },
+
+  // POST /api/exchanges
+  createExchange: {
+    body: {
+      name: Joi.string().required(),
+      config: Joi.object().required(),
+      enabled: Joi.boolean()
+    }
+  },
+
+  // UPDATE /api/exchanges/:exchangeId
+  updateExchange: {
+    body: {
+      name: Joi.string(),
+      config: Joi.object(),
+      enabled: Joi.boolean()
+    },
+    params: {
+      exchangeId: Joi.string().required()
+    }
   }
 };

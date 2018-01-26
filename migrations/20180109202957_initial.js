@@ -22,6 +22,14 @@ exports.up = function(knex, Promise) {
         table.string('password').notNullable();
         table.string('email');
         table.timestamps(true, true);
+      }),
+    knex.schema.createTableIfNotExists('exchanges',
+      (table) => {
+        table.increments('id').unsigned().primary();
+        table.string('name').notNullable().unique();
+        table.json('config').notNullable();
+        table.boolean('enabled');
+        table.timestamps(true, true);
       })
   ]);
 };

@@ -1,6 +1,22 @@
 const {Snapshot, Snapshots} = require('../models/snapshot.model');
 
 /**
+ * Load snapshot and append to req.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @param {*} id - The id of the snapshot to load.
+ */
+function load(req, res, next, id) {
+  Snapshot.get(id)
+    .then((snapshot) => {
+      req.snapshot = snapshot; // eslint-disable-line no-param-reassign
+      return next();
+    })
+    .catch((e) => next(e));
+}
+
+/**
  * Get snapshot
  * @param {*} req
  * @param {*} res
@@ -22,7 +38,7 @@ function create(req, res, next) {
       exchange: req.body.exchange,
       snapshot: req.body.snapshot
     })
-    .then(() => {
+    .then((snapshot) => {
       return res.json(snapshot.toJSON());
     })
     .catch((e) => {
@@ -81,4 +97,4 @@ function remove(req, res, next) {
     .catch((e) => next(e));
 }
 
-module.exports = {get, create, update, list, listInterval, remove};
+module.exports = {load, get, create, update, list, listInterval, remove};
