@@ -86,87 +86,82 @@ const exchanges = {
           res = JSON.parse(res);
           const BTCPrice = res.bpi[config.currency].rate_float;
 
-          const balancePromises = [];
-          debug('Fetching all exchange tickers');
+          debug('Building snapshots');
           if (Object.keys(exchangeConnections).length > 0) {
-            Object.keys(exchangeConnections).forEach((exchange) => {
-              exchangeConnections[exchange].fetchTickers()
-                .then((tickers) => {
-                  let totalAssetValue = 0;
-                  balancePromises.push(
-                    exchangeConnections[exchange]
-                      .fetchBalance()
-                      .then((balances) => {
-                        const parsedBalances = pickBy(balances.total, (val) => {
-                          return val > 0;
-                        });
+            const snapshotPromises = Object.keys(exchangeConnections)
+              .map((exchange) => {
+                return new Promise((resolve, reject) => {
+                  debug(`Fetching ${exchange} tickers`);
+                  exchangeConnections[exchange].fetchTickers()
+                    .then((tickers) => {
+                      let totalAssetValue = 0;
+                      debug(`Fetching ${exchange} balances`);
+                      exchangeConnections[exchange]
+                        .fetchBalance()
+                        .then((balances) => {
+                          const parsedBalances = pickBy(balances.total, (val) => {
+                            return val > 0;
+                          });
 
-                        for (let key in parsedBalances) {
-                          if (parsedBalances.hasOwnProperty(key)) {
-                            parsedBalances[key] = {
-                              total: parsedBalances[key]
-                            };
-                            const val = tickers[`${key}/BTC`];
-                            if (val) {
-                              parsedBalances[key].valueBTC = (val.last * parsedBalances[key].total);
-                              totalAssetValue += parsedBalances[key].valueBTC;
+                          for (let key in parsedBalances) {
+                            if (parsedBalances.hasOwnProperty(key)) {
+                              parsedBalances[key] = {
+                                total: parsedBalances[key]
+                              };
+                              const val = tickers[`${key}/BTC`];
+                              if (val) {
+                                parsedBalances[key].valueBTC = (val.last * parsedBalances[key].total);
+                                totalAssetValue += parsedBalances[key].valueBTC;
+                              }
                             }
                           }
-                        }
-                        // Add BTC
-                        if (parsedBalances['BTC']) {
-                          parsedBalances['BTC'].valueBTC = parsedBalances['BTC'].total;
-                          totalAssetValue += parsedBalances['BTC'].valueBTC;
-                        }
+                          // Add BTC
+                          if (parsedBalances['BTC']) {
+                            parsedBalances['BTC'].valueBTC = parsedBalances['BTC'].total;
+                            totalAssetValue += parsedBalances['BTC'].valueBTC;
+                          }
 
-                        return new Promise.resolve({
-                          name: exchange,
-                          balances: parsedBalances,
-                          totalAssetValue: totalAssetValue
-                        });
-                      })
-                      .catch((e) => {
-                        console.error(e);
-                      })
-                  );
-
-                  debug('Fetching all exchange balances');
-                  Promise.all(balancePromises)
-                    .then((res) => {
-                      const snapshotPromises = [];
-                      for (let i=0; i < res.length; i++) {
-                        const entry = res[i];
-                        snapshotPromises.push(Snapshot.create(
-                          {
-                            exchange: entry.name,
-                            snapshot: {
-                              balances: entry.balances,
-                              BTC: {
-                                price: BTCPrice,
-                                currency: config.currency
-                              },
-                              totalAssetValue: entry.totalAssetValue
-                            }
-                          })
-                          .then(() => {
-                            debug(`${res[i].name} snapshot created`);
-                          }));
-                      }
-                      Promise.all(snapshotPromises)
-                        .then((res) => {
-                          return resolve(res);
+                          return new Promise.resolve({
+                            name: exchange,
+                            balances: parsedBalances,
+                            totalAssetValue: totalAssetValue
+                          });
+                        })
+                        .then((entry) => {
+                          debug(`Building ${entry.name} snapshot`);
+                          Snapshot.create(
+                            {
+                              exchange: entry.name,
+                              snapshot: {
+                                balances: entry.balances,
+                                BTC: {
+                                  price: BTCPrice,
+                                  currency: config.currency
+                                },
+                                totalAssetValue: entry.totalAssetValue
+                              }
+                            })
+                            .then(() => {
+                              debug(`${entry.name} snapshot created`);
+                              resolve();
+                            });
                         })
                         .catch((e) => {
                           console.error(e);
-                          return reject(e);
+                          reject(e);
                         });
-                    })
-                    .catch((e) => {
-                      console.error(e);
-                      return reject(e);
                     });
                 });
-            });
+              });
+            debug('Creating all snapshots..', snapshotPromises.length);
+            Promise.all(snapshotPromises)
+              .then((res) => {
+                return resolve(res);
+              })
+              .catch((e) => {
+                console.error(e);
+                return reject(e);
+              });
           } else {
             console.error('No exchanges to snapshot.');
             return resolve();
