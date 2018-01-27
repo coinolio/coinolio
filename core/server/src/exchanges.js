@@ -86,32 +86,81 @@ const exchanges = {
           res = JSON.parse(res);
           const BTCPrice = res.bpi[config.currency].rate_float;
 
+          const combined = {
+            exchange: 'combined',
+            snapshot: {
+              balances: {},
+              BTC: {
+                price: BTCPrice,
+                currency: config.currency
+              },
+              totalAssetValue: 0
+            }
+          };
+
           debug('Building snapshots');
           if (Object.keys(exchangeConnections).length > 0) {
             const snapshotPromises = Object.keys(exchangeConnections)
               .map((exchange) => {
                 return new Promise((resolve, reject) => {
-                  debug(`Fetching ${exchange} tickers`);
-                  exchangeConnections[exchange].fetchTickers()
-                    .then((tickers) => {
+                  debug(`Fetching ${exchange} balances`);
+                  exchangeConnections[exchange].fetchBalance()
+                    .then((balances) => {
                       let totalAssetValue = 0;
-                      debug(`Fetching ${exchange} balances`);
-                      exchangeConnections[exchange]
-                        .fetchBalance()
-                        .then((balances) => {
-                          const parsedBalances = pickBy(balances.total, (val) => {
-                            return val > 0;
-                          });
+                      const parsedBalances = pickBy(balances.total, (val) => {
+                        return val > 0;
+                      });
 
+                      debug(`Fetching ${exchange} tickers`);
+                      const tickerPromises = Object.keys(parsedBalances)
+                        .map((symbol) => {
+                          if (symbol === 'BTC' || symbol === 'USDT') {
+                            return Promise.resolve({
+                              name: symbol,
+                              info: null
+                            });
+                          };
+
+                          return exchangeConnections[exchange]
+                            .fetchTicker(`${symbol}/BTC`)
+                            .then((res) => {
+                              return Promise.resolve({
+                                name: symbol,
+                                info: res
+                              });
+                            });
+                        });
+                      Promise.all(tickerPromises)
+                        .then((values) => {
                           for (let key in parsedBalances) {
                             if (parsedBalances.hasOwnProperty(key)) {
+                              const valEntry = values.find((v) => {
+                                return v.name === key;
+                              });
+
+                              const val = valEntry.info;
+
                               parsedBalances[key] = {
                                 total: parsedBalances[key]
                               };
-                              const val = tickers[`${key}/BTC`];
+
+                              if (combined.snapshot.balances[key]) {
+                                combined.snapshot.balances[key].total += parsedBalances[key].total;
+                              } else {
+                                combined.snapshot.balances[key] = {
+                                  total: parsedBalances[key].total
+                                };
+                              }
+
                               if (val) {
                                 parsedBalances[key].valueBTC = (val.last * parsedBalances[key].total);
                                 totalAssetValue += parsedBalances[key].valueBTC;
+
+                                if (combined.snapshot.balances[key].valueBTC) {
+                                  combined.snapshot.balances[key].valueBTC += parsedBalances[key].valueBTC;
+                                } else {
+                                  combined.snapshot.balances[key].valueBTC = parsedBalances[key].valueBTC;
+                                }
                               }
                             }
                           }
@@ -119,6 +168,12 @@ const exchanges = {
                           if (parsedBalances['BTC']) {
                             parsedBalances['BTC'].valueBTC = parsedBalances['BTC'].total;
                             totalAssetValue += parsedBalances['BTC'].valueBTC;
+
+                            if (combined.snapshot.balances['BTC'].valueBTC) {
+                              combined.snapshot.balances['BTC'].valueBTC += parsedBalances['BTC'].valueBTC;
+                            } else {
+                              combined.snapshot.balances['BTC'].valueBTC = parsedBalances['BTC'].valueBTC;
+                            }
                           }
 
                           return new Promise.resolve({
@@ -129,6 +184,7 @@ const exchanges = {
                         })
                         .then((entry) => {
                           debug(`Building ${entry.name} snapshot`);
+                          combined.snapshot.totalAssetValue += entry.totalAssetValue;
                           Snapshot.create(
                             {
                               exchange: entry.name,
@@ -155,6 +211,9 @@ const exchanges = {
               });
             debug('Creating all snapshots..', snapshotPromises.length);
             Promise.all(snapshotPromises)
+              .then(() => {
+                return Snapshot.create(combined);
+              })
               .then((res) => {
                 return resolve(res);
               })
