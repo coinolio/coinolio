@@ -20,6 +20,10 @@ router.route('/:tradeId')
   /** PUT /api/trades/:tradeId - Update trade */
   .put(permissions.requireLogin, validate(paramValidation.updateTrade), tradesCtrl.update);
 
+router.route('/symbol/:symbol')
+  /** GET /api/trades/symbol/:symbol - Get list of trades by cryptocurrency symbol */
+  .get(permissions.requireLogin, tradesCtrl.listBySymbol);
+
 /** Load trade when API with tradeId route parameter is hit */
 router.param('tradeId', tradesCtrl.load);
 

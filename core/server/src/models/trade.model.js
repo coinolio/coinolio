@@ -48,6 +48,23 @@ const Trades = db.Collection.extend({
       })
       .orderBy('datetime', 'DESC')
       .fetch();
+  },
+
+  /**
+   * List trades in descending order of 'created_at' timestamp for a certain cryptocurrency.
+   *
+   * @param {string} symbol - The symbol of the cryptocurrency
+   * @return {Promise}
+   */
+  listBySymbol(symbol) {
+    return Trades
+      .query((qb) => {
+        qb
+          .where('symbolBuy', '=', symbol)
+          .orWhere('symbolSell', '=', symbol);
+      })
+      .orderBy('datetime', 'DESC')
+      .fetch();
   }
 });
 

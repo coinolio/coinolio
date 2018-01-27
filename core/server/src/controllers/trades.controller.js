@@ -97,6 +97,18 @@ function list(req, res, next) {
 }
 
 /**
+ * Get trade list by cryptocurrency.
+ * @param {*} req
+ * @param {*} res
+ * @param {Function} next - Called when complete.
+ */
+function listBySymbol(req, res, next) {
+  Trades.listBySymbol(req.params.symbol)
+    .then((trades) => res.json(trades))
+    .catch((e) => next(e));
+}
+
+/**
  * Delete trade.
  * @param {*} req
  * @param {*} res
@@ -109,4 +121,4 @@ function remove(req, res, next) {
     .catch((e) => next(e));
 }
 
-module.exports = {load, get, create, update, list, remove};
+module.exports = {load, get, create, update, list, listBySymbol, remove};
