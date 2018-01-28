@@ -128,6 +128,9 @@ const exchanges = {
                                 name: symbol,
                                 info: res
                               });
+                            })
+                            .catch((err) => {
+                              reject(`Failed to fetch ${exchange} ticker`);
                             });
                         });
                       Promise.all(tickerPromises)
@@ -206,6 +209,9 @@ const exchanges = {
                           console.error(e);
                           reject(e);
                         });
+                    })
+                    .catch((err) => {
+                      reject(`Failed to fetch ${exchange} balances`);
                     });
                 });
               });
