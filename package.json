@@ -11,7 +11,9 @@
     "coverage": "mocha core/server/test/**/*.spec.js --reporter spec",
     "lint": "eslint --ext .js core",
     "test": "npm run lint && npm run unit",
-    "migrate": "knex migrate:latest"
+    "migrate": "knex migrate:latest",
+    "cz": "git-cz",
+    "commitmsg": "commitlint -e $GIT_PARAMS"
   },
   "engines": {
     "node": "^6.9.0"
@@ -32,8 +34,13 @@
     "https://github.com/coinolio/coinolio/graphs/contributors"
   ],
   "devDependencies": {
+    "@commitlint/cli": "^6.0.2",
+    "@commitlint/config-conventional": "^6.0.2",
+    "@commitlint/prompt": "^6.0.2",
     "babel-jest": "^22.0.4",
     "babel-loader": "^7.1.2",
+    "commitizen": "^2.9.6",
+    "cz-conventional-changelog": "^2.1.0",
     "eslint": "^4.14.0",
     "eslint-config-google": "^0.9.1",
     "jest": "^22.0.4",
@@ -70,5 +77,10 @@
     "redis": "^2.8.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
