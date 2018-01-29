@@ -13,7 +13,8 @@
     "test": "npm run lint && npm run unit",
     "migrate": "knex migrate:latest",
     "cz": "git-cz",
-    "commitmsg": "commitlint -e $GIT_PARAMS"
+    "commitmsg": "commitlint -e $GIT_PARAMS",
+    "commitlint-travis": "commitlint-travis"
   },
   "engines": {
     "node": "^6.9.0"
@@ -37,6 +38,7 @@
     "@commitlint/cli": "^6.0.2",
     "@commitlint/config-conventional": "^6.0.2",
     "@commitlint/prompt": "^6.0.2",
+    "@commitlint/travis-cli": "^6.0.2",
     "babel-jest": "^22.0.4",
     "babel-loader": "^7.1.2",
     "commitizen": "^2.9.6",

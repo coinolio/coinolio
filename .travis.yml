@@ -2,7 +2,9 @@ language: node_js
 node_js:
   - "8"
   - "6"
-script: "npm test -- --runInBand"
+script:
+  - npm run commitlint-travis
+  - npm test -- --runInBand
 sudo: false
 cache:
   directories:
@@ -16,3 +18,6 @@ before_script:
 after_script:
   - cd core/server/
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT -r 65cb1de293991a0fb25b4d9ec9d71a75c898b7007328d87a3fb3739932f14b6c
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
