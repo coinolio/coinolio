@@ -4,6 +4,7 @@
 
 [![Build status](https://travis-ci.org/coinolio/coinolio.svg?branch=master)](https://travis-ci.org/coinolio/coinolio)
 [![Greenkeeper badge](https://badges.greenkeeper.io/coinolio/coinolio.svg)](https://greenkeeper.io/)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcoinolio%2Fcoinolio.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcoinolio%2Fcoinolio?ref=badge_shield)
 
 Bitcoin and Altcoin trades logging and tracking. Including Profit / Loss calculations, Price Charts and realtime updates.
 
@@ -21,3 +22,6 @@ By using this application, you acknowledge, understand, and accept the following
 # Copyright & License
 
 Copyright (c) 2018 [Matthew Harrison-Jones](https://github.com/matthojo) - Released under the [MIT license](LICENSE).
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcoinolio%2Fcoinolio.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcoinolio%2Fcoinolio?ref=badge_large)
