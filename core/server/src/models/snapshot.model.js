@@ -66,7 +66,8 @@ const Snapshots = db.Collection.extend({
       MIN((snapshot->>'totalAssetValue')::numeric) AS min_assetValue,
       AVG((snapshot->>'totalAssetValue')::numeric) AS avg_assetValue
       FROM snapshots
-      WHERE time > NOW() - interval '${duration} hours'
+      WHERE exchange = 'combined'
+        AND time > NOW() - interval '${duration} hours'
       GROUP BY time_bucket_start
       ORDER BY time_bucket_start DESC, avg_assetValue DESC;
     `);

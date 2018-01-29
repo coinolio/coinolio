@@ -135,6 +135,7 @@ const exchanges = {
                         });
                       Promise.all(tickerPromises)
                         .then((values) => {
+                          if (!values) return;
                           for (let key in parsedBalances) {
                             if (parsedBalances.hasOwnProperty(key)) {
                               const valEntry = values.find((v) => {

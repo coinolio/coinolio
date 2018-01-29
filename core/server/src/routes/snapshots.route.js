@@ -8,8 +8,8 @@ router.route('/')
   /** GET /api/snapshots - Get list of snapshots */
   .get(permissions.requireLogin, snapshotsCtrl.list);
 
-router.route('/interval/:interval/:duration?')
-  /** GET /api/snapshots/interval/:interval/:duration? - Get list of snapshots in internals of minutes over duration of hours */
+router.route('/summary/:interval/:duration?')
+  /** GET /api/snapshots/summary/:interval/:duration? - Get list of snapshots in summary intervals of minutes over duration of hours */
   .get(permissions.requireLogin, snapshotsCtrl.listInterval);
 
 router.route('/:snapshotId')
