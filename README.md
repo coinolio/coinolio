@@ -4,12 +4,17 @@
 
 [![Build status](https://travis-ci.org/coinolio/coinolio.svg?branch=master)](https://travis-ci.org/coinolio/coinolio)
 [![Greenkeeper badge](https://badges.greenkeeper.io/coinolio/coinolio.svg)](https://greenkeeper.io/)
+[![Dependencies Status](https://david-dm.org/coinolio/coinolio/status.svg)](https://david-dm.org/coinolio/coinolio)
+[![Known Vulnerabilities](https://snyk.io/test/github/coinolio/coinolio/badge.svg)](https://snyk.io/test/github/coinolio/{.inoliocoest)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/d76b09807f3889c65d41/test_coverage)](https://codeclimate.com/github/coinolio/coinolio/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d76b09807f3889c65d41/maintainability)](https://codeclimate.com/github/coinolio/coinolio/maintainability)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Bitcoin and Altcoin trades logging and tracking. Including Profit / Loss calculations, Price Charts and realtime updates.
 
 # Work in progress
 This is very much a work in progress. The aim is to build a solid API base which can be hooked into via any form of interface.
-Any ideas welcome!
+All ideas welcome!
 
 # Contributing
 
