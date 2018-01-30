@@ -29,6 +29,12 @@ const Trade = db.Model.extend({
         );
         return Promise.reject(err);
       });
+  },
+
+  bulkCreate(data) {
+    return db.knex
+      .insert(data)
+      .into('trades');
   }
 });
 
@@ -65,6 +71,21 @@ const Trades = db.Collection.extend({
       })
       .orderBy('datetime', 'DESC')
       .fetch();
+  },
+
+  /**
+   * Fetch last trade stored.
+   *
+   * @return {Promise}
+   */
+  lastUpdate() {
+    return Trade
+      .query((qb) => {
+        qb
+          .select();
+      })
+      .orderBy('datetime', 'DESC')
+      .fetch({columns: ['datetime']});
   }
 });
 

@@ -40,8 +40,8 @@ exports.up = function(knex, Promise) {
         table.string('symbolSell').notNullable();
         table.string('type');
         table.string('side').notNullable();
-        table.float('price').notNullable();
-        table.float('amount').notNullable();
+        table.decimal('price').notNullable();
+        table.decimal('amount').notNullable();
         table.json('fee');
         table.string('exchange').notNullable();
         table.index('tran_id');

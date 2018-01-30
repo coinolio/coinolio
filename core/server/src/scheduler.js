@@ -16,12 +16,19 @@ function init() {
     .priority('normal')
     .unique('createSnapshot');
 
+  const fetchTrades = queue
+    .createJob('fetchTrades')
+    .priority('normal')
+    .unique('fetchTrades');
+
   // Initial launch jobs
   queue.now(createSnapshot);
+  queue.now(fetchTrades);
 
 
   // Scheduled jobs
   queue.every('*/2 * * * *', createSnapshot);
+  queue.every('*/2 * * * *', fetchTrades);
 }
 
 /**

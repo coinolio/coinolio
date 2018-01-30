@@ -51,6 +51,11 @@ const exchanges = {
     });
   },
 
+  getExchanges() {
+    debug('Returning active exchanges');
+    return exchangeConnections;
+  },
+
   loadExchanges() {
     debug('Loading active exchanges');
     exchangeConnections = {};
@@ -68,7 +73,7 @@ const exchanges = {
             const name = e.name.toLowerCase();
             exchangeConnections[name] = new ccxt[name](e.config);
           });
-          return resolve();
+          return resolve(exchangeConnections);
         })
         .catch((e) => {
           console.error(e);
