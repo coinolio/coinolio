@@ -57,7 +57,7 @@ const events = {
           return reject(e);
         });
     });
-  },
+  }
 };
 
 module.exports = events;
