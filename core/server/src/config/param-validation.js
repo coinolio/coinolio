@@ -112,5 +112,32 @@ module.exports = {
     params: {
       pluginId: Joi.string().required()
     }
+  },
+
+  // POST /api/events
+  createEvent: {
+    body: {
+      title: Joi.string().required(),
+      description: Joi.string(),
+      type: Joi.string().required(),
+      config: Joi.object(),
+      enabled: Joi.boolean(),
+      plugins: Joi.any()
+    }
+  },
+
+  // UPDATE /api/eventss/:eventId
+  updateEvent: {
+    body: {
+      title: Joi.string().required(),
+      description: Joi.string(),
+      type: Joi.string().required(),
+      config: Joi.object(),
+      enabled: Joi.boolean(),
+      plugins: Joi.any()
+    },
+    params: {
+      eventId: Joi.string().required()
+    }
   }
 };

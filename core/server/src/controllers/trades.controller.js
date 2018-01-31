@@ -1,3 +1,4 @@
+const queue = require('../redis').queue;
 const {Trade, Trades} = require('../models/trade.model');
 
 /**
@@ -51,7 +52,28 @@ function create(req, res, next) {
       method: 'insert'
     })
     .then((trade) => {
-      return res.json(trade.toJSON());
+      const parsed = trade.toJSON();
+      queue.create('event',
+        {
+          type: 'trade',
+          values: {
+            exchange: parsed.exchange,
+            tran_id: parsed.tran_id,
+            datetime: parsed.datetime,
+            status: parsed.status,
+            side: parsed.side,
+            symbolBuy: parsed.symbolBuy,
+            symbolSell: parsed.symbolSell,
+            type: parsed.type,
+            side: parsed.side,
+            price: parsed.price,
+            amount: parsed.amount,
+            fee: parsed.fee
+          }
+        })
+        .priority('normal')
+        .save();
+      return res.json(parsed);
     })
     .catch((e) => {
       next(e);

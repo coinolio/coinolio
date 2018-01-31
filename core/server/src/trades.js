@@ -74,7 +74,7 @@ const trades = {
                     queue.create('event',
                       {
                         type: 'trade',
-                        data: tradeData
+                        values: tradeData
                       })
                       .priority('normal')
                       .save();

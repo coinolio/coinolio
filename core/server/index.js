@@ -37,7 +37,7 @@ function init() {
    */
   function handleExit(options, err) {
     if (options.cleanup) {
-      const actions = [scheduler.stop(), db.knex.destroy()];
+      const actions = [scheduler.stop(), events.stop(), db.knex.destroy()];
       Promise.all(actions)
         .then(() => {
           process.exit();

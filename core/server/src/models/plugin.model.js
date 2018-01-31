@@ -5,7 +5,10 @@ const APIError = ('../utils/errors').APIError;
 
 const Plugin = db.Model.extend({
   tableName: 'plugins',
-  hasTimestamps: true
+  hasTimestamps: true,
+  events: function() {
+    return this.belongsToMany('Event', 'events_plugins', 'plugin_id', 'event_id');
+  }
 }, {
   /**
    * Get plugin

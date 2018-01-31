@@ -1,5 +1,6 @@
 const debug = require('debug')('Plugin:Base');
 const errors = require('../utils/errors');
+const redisStore = require('../redis').client;
 
 /**
  * EXCHANGE CLASS
@@ -14,10 +15,11 @@ class Plugin {
   constructor(options) {
     this.name;
     this.options = options;
+    this.store = redisStore;
   };
 
   /**
-   * Initialise exchange
+   * Initialise plugin
    *
    * @memberof Plugin
    */
@@ -28,11 +30,11 @@ class Plugin {
   /**
    * Send payload to plugin target.
    *
-   * @param {string} payload - What data to send.
+   * @param {object} payload - What data to send.
    * @memberof Plugin
    */
   sendPayload(payload) {
-    debug(`'sendPayload' method not setup for ${this.name} plugin`);
+    debug(`'sendPayload' called for ${this.name} plugin`);
   }
 
   /**
@@ -41,17 +43,17 @@ class Plugin {
    * @memberof Plugin
    */
   destroy() {
-    debug(`'destroy' method not setup for ${this.name} plugin`);
+    debug(`Destroying ${this.name} plugin`);
   }
 
   /**
-   * Handle errors in exchange events.
+   * Handle errors in plugin events.
    *
    * @param {string} error - Error string.
    * @memberof Plugin
    */
   handleError(error) {
-    debug(`${this.name} exchange error: ${error}`);
+    debug(`${this.name} plugin error: ${error}`);
     errors.log(error);
   }
 };
