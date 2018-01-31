@@ -6,6 +6,7 @@ const debug = require('debug')('server:index');
 const server = require('./src/server');
 const exchanges = require('./src/exchanges');
 const trades = require('./src/trades');
+const events = require('./src/events');
 const scheduler = require('./src/scheduler');
 const db = require('./src/db');
 
@@ -19,7 +20,7 @@ function init() {
   const port = process.env.PORT || 8080;
   const host = process.env.HOSTNAME || '0.0.0.0';
 
-  const modules = [exchanges.init(), trades.init()];
+  const modules = [exchanges.init(), trades.init(), events.init()];
   Promise.all(modules)
     .then(() => {
       scheduler.init();

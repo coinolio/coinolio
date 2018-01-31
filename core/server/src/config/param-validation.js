@@ -91,5 +91,26 @@ module.exports = {
     params: {
       exchangeId: Joi.string()
     }
+  },
+
+  // POST /api/plugins
+  createPlugin: {
+    body: {
+      name: Joi.string().required(),
+      config: Joi.object().required(),
+      enabled: Joi.boolean()
+    }
+  },
+
+  // UPDATE /api/plugins/:plugineId
+  updatePlugin: {
+    body: {
+      name: Joi.string(),
+      config: Joi.object(),
+      enabled: Joi.boolean()
+    },
+    params: {
+      pluginId: Joi.string().required()
+    }
   }
 };

@@ -51,6 +51,14 @@ exports.up = function(knex, Promise) {
       })
       .then(() =>{
         return knex.raw(`SELECT create_hypertable('trades', 'datetime')`);
+      }),
+    knex.schema.createTableIfNotExists('plugins',
+      (table) => {
+        table.increments('id').unsigned().primary();
+        table.string('name').notNullable().unique();
+        table.json('config').notNullable();
+        table.boolean('enabled');
+        table.timestamps(true, true);
       })
   ]);
 };

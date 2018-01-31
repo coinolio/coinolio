@@ -13,7 +13,7 @@ const validExchanges = ccxt.exchanges;
 function load(req, res, next, id) {
   Exchange.get(id)
     .then((exchange) => {
-      req.exchange = exchange; // eslint-disable-line no-param-reassign
+      req.exchange = exchange;
       return next();
     })
     .catch((e) => next(e));
@@ -49,9 +49,7 @@ function create(req, res, next) {
     .then((exchange) => {
       const refreshExchanges = queue
         .createJob('refreshExchanges', {})
-        .priority('high')
-        .removeOnComplete( true )
-        .save();
+        .priority('high');
       queue.now(refreshExchanges);
       return res.json(exchange.toJSON());
     })
