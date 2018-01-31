@@ -56,7 +56,8 @@ const trades = {
                   }
                   const tradeInserts = trades.map((t) => {
                     const symbols = /^(.*)\/(.*)$/ig.exec(t.symbol);
-                    return {
+
+                    const tradeData = {
                       exchange: exchange,
                       tran_id: t.id || 'unavailable',
                       datetime: t.datetime,
@@ -69,7 +70,18 @@ const trades = {
                       amount: t.amount || 0,
                       fee: t.fee
                     };
+
+                    queue.create('event',
+                      {
+                        type: 'trade',
+                        data: tradeData
+                      })
+                      .priority('normal')
+                      .save();
+
+                    return tradeData;
                   });
+
                   return Trade.bulkCreate(tradeInserts);
                 });
             });
