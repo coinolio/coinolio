@@ -59,6 +59,22 @@ exports.up = function(knex, Promise) {
         table.json('config').notNullable();
         table.boolean('enabled');
         table.timestamps(true, true);
+      }),
+    knex.schema.createTableIfNotExists('events',
+      (table) => {
+        table.increments('id').unsigned().primary();
+        table.string('title').notNullable().unique();
+        table.string('description');
+        table.string('type').notNullable();
+        table.json('config').notNullable();
+        table.boolean('enabled');
+        table.timestamps(true, true);
+      }),
+    knex.schema.createTableIfNotExists('events_plugins',
+      (table) => {
+        table.integer('event_id').unsigned().references('id').inTable('events');
+        table.integer('plugin_id').unsigned().references('id').inTable('plugins');
+        table.primary(['event_id', 'plugin_id']);
       })
   ]);
 };
