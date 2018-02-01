@@ -1,3 +1,4 @@
+process.env['NTBA_FIX_319'] = 1;
 const Plugin = require('../Plugin');
 const TelegramBot = require('node-telegram-bot-api');
 
