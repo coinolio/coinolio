@@ -5,7 +5,10 @@ module.exports = {
     password: process.env.DATABASE_PASSWORD,
     location: process.env.DATABASE_LOCATION || 'coinolio'
   },
-  redis: process.env.REDIS_URL || 'redis://localhost:6379',
+  redis: {
+    host: process.env.REDIS_URL || 'redis://localhost',
+    port: process.env.REDIS_PORT || 6379
+  },
   currency: process.env.CURRENCY || 'USD',
   jwtSecret: process.env.TOKEN_SECRET
 };

@@ -1,27 +1,5 @@
 version: '3'
 services:
-  api:
-    build:
-      context: .
-    command: npm start
-    volumes:
-      - .:/usr/app
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-      - redis
-    environment:
-      NODE_ENV: production
-      DATABASE_URL: postgres://db
-      DATABASE_USER: coinolio
-      DATABASE_PASSWORD: test # UPDATE
-      DATABASE_LOCATION: coinolio
-      REDIS_URL: redis://redis:6379
-      SESSION_SECRET: thisisasecretshhh # UPDATE
-      TOKEN_SECRET: thisisanothersecret # UPDATE
-      DEBUG: '*'
-    restart: on-failure
   db:
     image: timescale/timescaledb:latest
     restart: always
@@ -33,10 +11,39 @@ services:
       POSTGRES_USER: coinolio
       POSTGRES_PASSWORD: test # UPDATE
       POSTGRES_DB: coinolio
+    networks:
+      - coinolio_net
   redis:
     image: redis:alpine
-    hostname: redis
     restart: always
     ports:
       - "6379:6379"
-
+    networks:
+      - coinolio_net
+  api:
+    build:
+      context: .
+    command: ["./wait-for-it.sh", "db:5432", "--", "npm", "start"]
+    volumes:
+      - .:/usr/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+      - db
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=db
+      - DATABASE_USER=coinolio
+      - DATABASE_PASSWORD=test # UPDATE
+      - DATABASE_LOCATION=coinolio
+      - REDIS_URL=redis://redis
+      - SESSION_SECRET=thisisasecretshhh # UPDATE
+      - TOKEN_SECRET=thisisanothersecret # UPDAT
+      - DEBUG='*'
+    restart: on-failure
+    networks:
+      - coinolio_net
+networks:
+  coinolio_net:
+    driver: bridge

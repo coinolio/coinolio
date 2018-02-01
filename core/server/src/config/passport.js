@@ -35,18 +35,12 @@ passport.use(new LocalStrategy({usernameField: 'username'}, (username, password,
       if (!user) {
         return done(null, false, {msg: `User ${username} not found.`});
       }
-      // login was successful if we have a user
-      if (user) {
-        user = user.toJSON();
 
-        return done(null, user);
-      }
+      return done(null, user.toJSON());
     })
     .catch((reason) => {
-      if (reason) {
-        const authErr = new APIError('Username or Password incorrect', httpStatus.UNAUTHORIZED, true);
-        return done(authErr, false);
-      }
+      const authErr = new APIError('Username or Password incorrect', httpStatus.UNAUTHORIZED, true);
+      return done(authErr, false);
     });
 }));
 

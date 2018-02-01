@@ -8,11 +8,11 @@ bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
 const client = redis.createClient({
-  redis: config.redis,
+  url: `${config.redis.host}:${config.redis.port}`,
   prefix: 'coinolio:'
 });
 const queue = kue.createQueue({
-  redis: config.redis,
+  redis: `${config.redis.host}:${config.redis.port}`,
   prefix: 'coinolio-queue'
 });
 

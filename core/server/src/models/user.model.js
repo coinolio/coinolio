@@ -41,11 +41,11 @@ const User = db.Model.extend(
           self.set('password', String(self.get('password')));
           bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
             // hash the password along with our new salt
-            if ( err ) {
+            if (err) {
               reject(err);
             }
             bcrypt.hash(self.get('password'), salt, (err2, hash) => {
-              if ( err2 ) {
+              if (err2) {
                 reject(err2);
               }
               // override the cleartext password with the hashed one
@@ -113,7 +113,7 @@ const User = db.Model.extend(
       return bcrypt.compare(plainPassword, hashedPassword)
         .then(function(matched) {
           if (matched) {
-            return;
+            return Promise.resolve();
           }
 
           return Promise.reject('Password incorrect');

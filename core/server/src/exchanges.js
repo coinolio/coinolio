@@ -209,6 +209,10 @@ const exchanges = {
                             .then(() => {
                               debug(`${entry.name} snapshot created`);
                               resolve();
+                            })
+                            .catch((e) => {
+                              console.error(e);
+                              reject(e);
                             });
                         })
                         .catch((e) => {
@@ -237,6 +241,10 @@ const exchanges = {
             console.error('No exchanges to snapshot.');
             return resolve();
           }
+        })
+        .catch((e) => {
+          console.error(e);
+          return reject(e);
         });
     });
   }
