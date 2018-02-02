@@ -43,14 +43,14 @@ function create(req, res, next) {
       enabled: req.body.enabled !== undefined ? req.body.enabled : true
     })
     .then((event) => {
-      return event.plugins().attach(req.body.plugins);
-    })
-    .then((event) => {
-      const refreshEvents = queue
-        .createJob('refreshEvents', {})
-        .priority('high');
-      queue.now(refreshEvents);
-      return res.json(event.toJSON());
+      return event.plugins().attach(req.body.plugins)
+        .then(() => {
+          const refreshEvents = queue
+            .createJob('refreshEvents', {})
+            .priority('high');
+          queue.now(refreshEvents);
+          return res.json(event.toJSON());
+        });
     })
     .catch((e) => {
       next(e);
@@ -65,16 +65,33 @@ function create(req, res, next) {
  */
 function update(req, res, next) {
   Event
-    .update(req.body, {id: req.event.id})
+    .update({
+      title: req.body.title,
+      description: req.body.description,
+      type: req.body.type,
+      config: req.body.config,
+      enabled: req.body.enabled
+    }, {id: req.event.id})
     .then((event) => {
-      return event.plugins().attach(req.body.plugins);
-    })
-    .then((event) => {
-      const refreshEvents = queue
-        .createJob('refreshEvents', {})
-        .priority('high');
-      queue.now(refreshEvents);
-      return res.json(event.toJSON());
+      if (req.body.plugins) {
+        event.plugins().detach()
+          .then(() => {
+            return event.plugins().attach(req.body.plugins);
+          })
+          .then(() => {
+            const refreshEvents = queue
+              .createJob('refreshEvents', {})
+              .priority('high');
+            queue.now(refreshEvents);
+            return res.json(event.toJSON());
+          });
+      } else {
+        const refreshEvents = queue
+          .createJob('refreshEvents', {})
+          .priority('high');
+        queue.now(refreshEvents);
+        return res.json(event.toJSON());
+      }
     })
     .catch((e) => next(e));
 }

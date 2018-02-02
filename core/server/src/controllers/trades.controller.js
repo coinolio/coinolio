@@ -137,8 +137,7 @@ function listBySymbol(req, res, next) {
  * @param {Function} next - Called when complete.
  */
 function remove(req, res, next) {
-  const trade = req.trade;
-  Trade.destroy(trade)
+  Trade.destroy({id: req.trade.tran_id})
     .then((deletedTrade) => res.json(deletedTrade))
     .catch((e) => next(e));
 }

@@ -13,11 +13,13 @@ function init() {
   debug('Initialising...');
   const createSnapshot = queue
     .createJob('createSnapshot')
+    .ttl(300000) // 5mins
     .priority('normal')
     .unique('createSnapshot');
 
   const fetchTrades = queue
     .createJob('fetchTrades')
+    .ttl(300000) // 5mins
     .priority('normal')
     .unique('fetchTrades');
 

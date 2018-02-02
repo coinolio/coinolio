@@ -122,16 +122,16 @@ module.exports = {
       type: Joi.string().required(),
       config: Joi.object(),
       enabled: Joi.boolean(),
-      plugins: Joi.any()
+      plugins: Joi.any().required()
     }
   },
 
   // UPDATE /api/eventss/:eventId
   updateEvent: {
     body: {
-      title: Joi.string().required(),
+      title: Joi.string(),
       description: Joi.string(),
-      type: Joi.string().required(),
+      type: Joi.string(),
       config: Joi.object(),
       enabled: Joi.boolean(),
       plugins: Joi.any()

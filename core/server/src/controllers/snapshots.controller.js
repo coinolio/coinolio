@@ -91,8 +91,7 @@ function listInterval(req, res, next) {
  * @param {Function} next - Called when complete.
  */
 function remove(req, res, next) {
-  const snapshot = req.snapshot;
-  Snapshot.destroy(snapshot)
+  Snapshot.destroy({id: req.snapshot.time})
     .then((deletedSnapshot) => res.json(deletedSnapshot))
     .catch((e) => next(e));
 }
