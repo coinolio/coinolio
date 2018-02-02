@@ -18,7 +18,10 @@ router.route('/:tradeId')
   .get(permissions.requireLogin, tradesCtrl.get)
 
   /** PUT /api/trades/:tradeId - Update trade */
-  .put(permissions.requireLogin, validate(paramValidation.updateTrade), tradesCtrl.update);
+  .put(permissions.requireLogin, validate(paramValidation.updateTrade), tradesCtrl.update)
+
+  /** DELETE /api/trades/:tradeId - Delete trade */
+  .delete(permissions.requireLogin, tradesCtrl.remove);
 
 router.route('/symbol/:symbol')
   /** GET /api/trades/symbol/:symbol - Get list of trades by cryptocurrency symbol */

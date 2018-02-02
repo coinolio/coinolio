@@ -18,7 +18,10 @@ router.route('/:pluginId')
   .get(permissions.requireLogin, pluginsCtrl.get)
 
   /** PUT /api/plugins/:pluginId - Update plugin */
-  .put(permissions.requireLogin, validate(paramValidation.updatePlugin), pluginsCtrl.update);
+  .put(permissions.requireLogin, validate(paramValidation.updatePlugin), pluginsCtrl.update)
+
+  /** DELETE /api/plugins/:pluginId - Delete plugin */
+  .delete(permissions.requireLogin, pluginsCtrl.remove);
 
 /** Load plugin when API with pluginId route parameter is hit */
 router.param('pluginId', pluginsCtrl.load);

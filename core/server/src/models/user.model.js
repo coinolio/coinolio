@@ -19,7 +19,7 @@ const User = db.Model.extend(
       return User.findOne({}, {require: false})
         .then((user) => {
           if (user) {
-            const err = new APIError('Limited to one user', httpStatus.BAD_REQUEST);
+            const err = new APIError('Limited to one user', httpStatus.BAD_REQUEST, true);
             return Promise.reject(err);
           }
           return this.hashPassword(model, attrs, options);

@@ -58,7 +58,7 @@ function init() {
 
   process.on('exit', handleExit.bind(null, {cleanup: true}));
   process.on('SIGINT', handleExit.bind(null, {cleanup: true}));
-  process.on('SIGTERM', handleExit.bind(null, {exit: true}));
+  process.on('SIGTERM', handleExit.bind(null, {cleanup: true}));
   process.on('uncaughtException', handleExit.bind(null, {exit: true}));
   debug('Server initialisation complete');
 }

@@ -14,7 +14,10 @@ router.route('/summary/:interval/:duration?')
 
 router.route('/:snapshotId')
   /** GET /api/snapshots/:snapshotId - Get snapshot */
-  .get(permissions.requireLogin, snapshotsCtrl.get);
+  .get(permissions.requireLogin, snapshotsCtrl.get)
+
+  /** DELETE /api/snapshots/:snapshotId - Delete snapshot */
+  .delete(permissions.requireLogin, snapshotsCtrl.remove);
 
 /** Load snapshot when API with snapshotId route parameter is hit */
 router.param('snapshotId', snapshotsCtrl.load);

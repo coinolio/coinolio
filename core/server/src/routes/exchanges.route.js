@@ -22,7 +22,10 @@ router.route('/:exchangeId')
   .get(permissions.requireLogin, exchangesCtrl.get)
 
   /** PUT /api/exchanges/:exchangeId - Update exchange */
-  .put(permissions.requireLogin, validate(paramValidation.updateExchange), exchangesCtrl.update);
+  .put(permissions.requireLogin, validate(paramValidation.updateExchange), exchangesCtrl.update)
+
+  /** DELETE /api/exchanges/:exchangeId - Delete exchange */
+  .delete(permissions.requireLogin, exchangesCtrl.remove);
 
 /** Load exchange when API with exchangeId route parameter is hit */
 router.param('exchangeId', exchangesCtrl.load);

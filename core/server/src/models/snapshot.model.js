@@ -48,7 +48,7 @@ const Snapshots = db.Collection.extend({
           .limit(limit)
           .select();
       })
-      .orderBy('created_at', 'DESC')
+      .orderBy('time', 'DESC')
       .fetch();
   },
 

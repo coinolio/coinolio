@@ -32,7 +32,7 @@ services:
       - redis
       - db
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - DATABASE_URL=db
       - DATABASE_USER=coinolio
       - DATABASE_PASSWORD=test # UPDATE
@@ -40,7 +40,7 @@ services:
       - REDIS_URL=redis://redis
       - SESSION_SECRET=thisisasecretshhh # UPDATE
       - TOKEN_SECRET=thisisanothersecret # UPDAT
-      - DEBUG='*'
+      - DEBUG=*
     restart: on-failure
     networks:
       - coinolio_net

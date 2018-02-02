@@ -18,7 +18,10 @@ router.route('/:eventId')
   .get(permissions.requireLogin, eventsCtrl.get)
 
   /** PUT /api/events/:eventId - Update event */
-  .put(permissions.requireLogin, validate(paramValidation.updateEvent), eventsCtrl.update);
+  .put(permissions.requireLogin, validate(paramValidation.updateEvent), eventsCtrl.update)
+
+  /** DELETE /api/events/:eventId - Delete event */
+  .delete(permissions.requireLogin, eventsCtrl.remove);
 
 /** Load event when API with eventId route parameter is hit */
 router.param('eventId', eventsCtrl.load);
