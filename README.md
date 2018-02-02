@@ -10,7 +10,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/d76b09807f3889c65d41/maintainability)](https://codeclimate.com/github/coinolio/coinolio/maintainability)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Bitcoin and Altcoin trades logging and tracking. Including Profit / Loss calculations, Price Charts and realtime updates.
+Open source Bitcoin and Altcoin portfolio / trades logging and tracking. Including Profit / Loss calculations, Price Charts and realtime updates.
 
 # Work in progress
 This is very much a work in progress. The aim is to build a solid API base which can be hooked into via any form of interface.
