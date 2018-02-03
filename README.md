@@ -14,7 +14,7 @@ Open source Bitcoin and Altcoin portfolio / trades logging and tracking. Includi
 **This is very much a work in progress. The aim is to build a solid API base which can be hooked into via any form of interface.
 All ideas welcome!**
 
-[Documentation](https://coinolio.readme.io/docs) &middot; [API Reference](https://coinolio.readme.io/v1.0/reference) &middot; [Twitter](https://twitter.com/CoinolioApp)
+[Documentation](https://coinolio.readme.io/docs) &middot; [API Reference](https://coinolio.readme.io/v1.0/reference) &middot; [Discord](https://discord.gg/QYTShcN) &middot; [Twitter](https://twitter.com/CoinolioApp)
 
 # Getting started
 
