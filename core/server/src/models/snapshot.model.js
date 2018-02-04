@@ -64,7 +64,16 @@ const Snapshots = db.Collection.extend({
       COUNT(*) as entries,
       MAX((snapshot->>'totalAssetValue')::numeric) AS max_assetValue,
       MIN((snapshot->>'totalAssetValue')::numeric) AS min_assetValue,
-      AVG((snapshot->>'totalAssetValue')::numeric) AS avg_assetValue
+      AVG((snapshot->>'totalAssetValue')::numeric) AS avg_assetValue,
+      MAX(
+        ((snapshot->>'totalAssetValue')::numeric * (snapshot->'BTC'->>'price')::numeric)
+      ) AS max_assetFiat,
+      MIN(
+        ((snapshot->>'totalAssetValue')::numeric * (snapshot->'BTC'->>'price')::numeric)
+      ) AS min_assetFiat,
+      AVG(
+        ((snapshot->>'totalAssetValue')::numeric * (snapshot->'BTC'->>'price')::numeric)
+      ) AS avg_assetFiat
       FROM snapshots
       WHERE exchange = 'combined'
         AND time > NOW() - interval '${duration} hours'
