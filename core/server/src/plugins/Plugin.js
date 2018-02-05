@@ -38,6 +38,24 @@ class Plugin {
   }
 
   /**
+   * Format trade data.
+   *
+   * @param {Object} data - The data to parse into valid plugin format.
+   */
+  formatTrade(data) {
+
+  }
+
+  /**
+   * Format summary data.
+   *
+   * @param {Object} data - The data to parse into valid plugin format.
+   */
+  formatSummary(data) {
+
+  }
+
+  /**
    * Destroy this connection.
    *
    * @memberof Plugin

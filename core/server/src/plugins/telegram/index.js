@@ -73,6 +73,58 @@ class Telegram extends Plugin {
   }
 
   /**
+   * Format trade data.
+   *
+   * @param {string} title - The title of the event.
+   * @param {Object} data - The data to parse into valid plugin format.
+   * @return {string} - The formatted data.
+   */
+  formatTrade(title, data) {
+    return `
+<b>${title}</b>\n
+<b>Order ID:</b> ${data.tran_id}
+<b>Date:</b> ${data.datetime}
+<b>Type:</b> ${data.type}
+<b>Side:</b> ${data.side}
+<b>Currency:</b> ${data.symbolBuy}
+<b>Trading pair:</b> ${data.symbolSell}-${data.symbolBuy}
+<b>Exchange:</b> ${data.exchange}
+<b>Amount:</b> ${data.amount}
+<b>Rate:</b> ${data.price}
+<b>Total:</b> ${data.amount * data.price} ${data.symbolSell}
+    `;
+  }
+
+  /**
+   * Format summary data.
+   *
+   * @param {string} title - The title of the event.
+   * @param {Object} data - The data to parse into valid plugin format.
+   * @return {string} - The formatted data
+   */
+  formatSummary(title, data) {
+    const latest = data[0];
+    const prev = data[1] || null;
+    const lastBTC = parseFloat(latest.last_asset_value).toPrecision(12);
+    const lastFiat = parseFloat(latest.last_asset_fiat).toFixed(2);
+
+    let msg = `
+<b>${title}</b>\n
+<b>Asset value (BTC):</b> ${lastBTC}
+<b>Asset value (fiat):</b> ${lastFiat}
+    `;
+    if (prev) {
+      const prevBTC = parseFloat(prev.last_asset_value).toPrecision(12);
+      const prevFiat = parseFloat(prev.last_asset_fiat).toFixed(2);
+      msg += `
+<b>Difference (BTC):</b> ${(100 - (lastBTC / prevBTC) * 100).toFixed(2)}%
+<b>Difference (fiat):</b> ${(100 - (lastFiat / prevFiat ) * 100).toFixed(2)}%
+      `;
+    }
+    return msg;
+  }
+
+  /**
    * Destroy this connection.
    *
    * @returns {Promise}

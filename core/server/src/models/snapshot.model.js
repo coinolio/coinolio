@@ -62,23 +62,31 @@ const Snapshots = db.Collection.extend({
     return db.knex.raw(`
       SELECT time_bucket('${interval} minutes', time) AS time_bucket_start,
       COUNT(*) as entries,
-      MAX((snapshot->>'totalAssetValue')::numeric) AS max_assetValue,
-      MIN((snapshot->>'totalAssetValue')::numeric) AS min_assetValue,
-      AVG((snapshot->>'totalAssetValue')::numeric) AS avg_assetValue,
+      MAX((snapshot->>'totalAssetValue')::numeric) AS max_asset_value,
+      MIN((snapshot->>'totalAssetValue')::numeric) AS min_asset_value,
+      AVG((snapshot->>'totalAssetValue')::numeric) AS avg_asset_value,
+      first((snapshot->>'totalAssetValue')::numeric, time) AS first_asset_value,
+      last((snapshot->>'totalAssetValue')::numeric, time) AS last_asset_value,
       MAX(
         ((snapshot->>'totalAssetValue')::numeric * (snapshot->'BTC'->>'price')::numeric)
-      ) AS max_assetFiat,
+      ) AS max_asset_fiat,
       MIN(
         ((snapshot->>'totalAssetValue')::numeric * (snapshot->'BTC'->>'price')::numeric)
-      ) AS min_assetFiat,
+      ) AS min_asset_fiat,
       AVG(
         ((snapshot->>'totalAssetValue')::numeric * (snapshot->'BTC'->>'price')::numeric)
-      ) AS avg_assetFiat
+      ) AS avg_asset_fiat,
+      first(
+        ((snapshot->>'totalAssetValue')::numeric * (snapshot->'BTC'->>'price')::numeric)
+      , time) AS first_asset_fiat,
+      last(
+        ((snapshot->>'totalAssetValue')::numeric * (snapshot->'BTC'->>'price')::numeric)
+      , time) AS last_asset_fiat
       FROM snapshots
       WHERE exchange = 'combined'
         AND time > NOW() - interval '${duration} hours'
       GROUP BY time_bucket_start
-      ORDER BY time_bucket_start DESC, avg_assetValue DESC;
+      ORDER BY time_bucket_start DESC;
     `);
   }
 });

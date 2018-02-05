@@ -4,6 +4,7 @@ const queue = require('./redis').queue;
 
 const {Plugins} = require('./models/plugin.model');
 const {Events} = require('./models/event.model');
+const {Snapshots} = require('./models/snapshot.model');
 
 const Telegram = require('./plugins/telegram');
 const availablePlugins = {
@@ -11,6 +12,7 @@ const availablePlugins = {
 };
 let pluginInstances = {};
 let userEvents = [];
+let userSchedules = [];
 
 const events = {
   init() {
@@ -36,33 +38,33 @@ const events = {
       const eventPromises = validEvents.map((event) => {
         return new Promise((resolve, reject) => {
           const pluginPromises = event.plugins.map((p) => {
-            debug(`Sending '${event.title}' via ${p.name}`);
-            let payload = '';
+            const pluginRef = pluginInstances[p.name.toLowerCase()];
+
             if (event.type === 'trade') {
-              payload = `
-<b>${event.title}</b>\n
-<b>Order ID:</b> ${job.data.values.tran_id}
-<b>Date:</b> ${job.data.values.datetime}
-<b>Type:</b> ${job.data.values.type}
-<b>Side:</b> ${job.data.values.side}
-<b>Currency:</b> ${job.data.values.symbolBuy}
-<b>Trading pair:</b> ${job.data.values.symbolSell}-${job.data.values.symbolBuy}
-<b>Exchange:</b> ${job.data.values.exchange}
-<b>Amount:</b> ${job.data.values.amount}
-<b>Rate:</b> ${job.data.values.price}
-<b>Total:</b> ${job.data.values.amount * job.data.values.price} ${job.data.values.symbolSell}
-              `;
+              const payload = pluginRef.formatTrade(event.title, job.data.values);
+              if (payload) {
+                debug(`Sending '${event.title}' via ${p.name}`);
+                return pluginRef
+                  .sendPayload(payload);
+              }
+            } else if (event.type === 'summary' && event.title === job.data.title) {
+              Snapshots.listInterval(job.data.config.interval, job.data.config.duration)
+                .then((snapshots) =>{
+                  const msg = pluginRef.formatSummary(event.title, snapshots.rows);
+                  debug(`Sending '${event.title}' via ${p.name}`);
+                  return pluginRef
+                    .sendPayload(msg);
+                });
             }
-            console.log(pluginInstances);
-            return pluginInstances[p.name.toLowerCase()]
-              .sendPayload(payload);
           });
 
           Promise.all(pluginPromises)
             .then(() => {
+              debug('Plugin jobs complete');
               resolve();
             })
             .catch((e) => {
+              console.error(e);
               reject(e);
             });
         });
@@ -110,6 +112,7 @@ const events = {
   loadEvents() {
     debug('Loading active events');
     userEvents = [];
+    this.clearSchedulers();
     return new Promise((resolve, reject) => {
       Events.list()
         .then((res) => {
@@ -119,13 +122,37 @@ const events = {
             return resolve();
           }
           userEvents = events;
+
+          const schedules = userEvents.filter((e) => {
+            return e.type === 'summary';
+          });
+
+          for (let i=0; i < schedules.length; i++) {
+            const entry = schedules[i];
+            const job = queue
+              .createJob('event', entry)
+              .priority('normal');
+            queue.every(entry.config.schedule, job);
+          }
+
           resolve(userEvents);
         });
     });
   },
 
+  clearSchedulers() {
+    for (let i=0; i < userSchedules.length; i++) {
+      queue.remove(userSchedules[i], (err) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+    }
+  },
+
   stop() {
     return new Promise((resolve, reject) => {
+      this.clearSchedulers();
       const stopPromises = Object.keys(pluginInstances).map((plugin) => {
         return pluginInstances[plugin].destroy()
           .then(() =>{
