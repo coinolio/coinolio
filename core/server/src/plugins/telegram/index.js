@@ -118,8 +118,8 @@ class Telegram extends Plugin {
       const prevBTC = parseFloat(prev.last_asset_value).toPrecision(12);
       const prevFiat = parseFloat(prev.last_asset_fiat).toFixed(2);
       msg += `
-<b>Difference (BTC):</b> ${(100 - (lastBTC / prevBTC) * 100).toFixed(2)}%
-<b>Difference (fiat):</b> ${(100 - (lastFiat / prevFiat ) * 100).toFixed(2)}%
+<b>Difference (BTC):</b> ${(100 - (prevBTC / lastBTC) * 100).toFixed(2)}%
+<b>Difference (fiat):</b> ${(100 - (prevFiat / lastFiat) * 100).toFixed(2)}%
       `;
     }
     return msg;
