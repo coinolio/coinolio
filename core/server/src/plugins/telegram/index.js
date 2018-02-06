@@ -1,4 +1,5 @@
 process.env['NTBA_FIX_319'] = 1;
+const debug = require('debug')('plugin:Telegram');
 const Plugin = require('../Plugin');
 const TelegramBot = require('node-telegram-bot-api');
 
@@ -67,7 +68,7 @@ class Telegram extends Plugin {
   sendPayload(payload) {
     super.sendPayload();
     if (!this.chatId) {
-      debug(`Chat has not been initiated`);
+      debug(`Telegram has not been initiated`);
     }
     this.connection.sendMessage(this.chatId, payload, {parse_mode: 'HTML'});
   }

@@ -124,7 +124,7 @@ const events = {
           userEvents = events;
 
           const schedules = userEvents.filter((e) => {
-            return e.type === 'summary';
+            return e.type === 'summary' && e.enabled;
           });
 
           for (let i=0; i < schedules.length; i++) {
