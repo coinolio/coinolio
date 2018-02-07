@@ -2,15 +2,10 @@ const debug = require('debug')('events');
 const Promise = require('bluebird');
 const queue = require('./redis').queue;
 
-const {Plugins} = require('./models/plugin.model');
+const plugins = require('./plugins');
 const {Events} = require('./models/event.model');
 const {Snapshots} = require('./models/snapshot.model');
 
-const Telegram = require('./plugins/telegram');
-const availablePlugins = {
-  telegram: Telegram
-};
-let pluginInstances = {};
 let userEvents = [];
 let userSchedules = [];
 
@@ -18,8 +13,7 @@ const events = {
   init() {
     debug('Initialising events');
     return new Promise((resolve, reject) => {
-      return this.loadPlugins()
-        .then(this.loadEvents())
+      return this.loadEvents()
         .then(() => {
           this.listen();
           resolve();
@@ -29,8 +23,23 @@ const events = {
 
   listen() {
     debug('Listening..');
+    queue.process('reloadEvents', (job, done) => {
+      debug('"reloadEvents" event fired');
+      this.loadEvents()
+        .then(() => {
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+    });
     queue.process('event', (job, done) => {
       debug(`New event fired: ${job.data.type}`);
+      const pluginInstances = plugins.getPlugins();
+
+      if (Object.keys(pluginInstances).length === 0) {
+        return resolve('No plugins initialised');
+      }
       const validEvents = userEvents.filter((e) => {
         return e.type === job.data.type && e.enabled;
       });
@@ -81,34 +90,6 @@ const events = {
     });
   },
 
-  loadPlugins() {
-    debug('Loading active plugins');
-    pluginInstances = {};
-    return new Promise((resolve, reject) => {
-      Plugins.list()
-        .then((plugins) => {
-          const parsed = plugins.toJSON().filter((e) => {
-            return e.enabled;
-          });
-          if (parsed.length === 0) {
-            console.error('No plugins available. Please add a plugin or enable an existing.');
-            return resolve();
-          }
-          parsed.forEach((e) => {
-            const name = e.name.toLowerCase();
-            const plugin = availablePlugins[name];
-            pluginInstances[name] = new plugin(e.config);
-            pluginInstances[name].init();
-          });
-          return resolve(pluginInstances);
-        })
-        .catch((e) => {
-          console.error(e);
-          return reject(e);
-        });
-    });
-  },
-
   loadEvents() {
     debug('Loading active events');
     userEvents = [];
@@ -131,6 +112,7 @@ const events = {
             const entry = schedules[i];
             const job = queue
               .createJob('event', entry)
+              .attempts(2)
               .priority('normal');
             queue.every(entry.config.schedule, job);
           }
@@ -153,17 +135,7 @@ const events = {
   stop() {
     return new Promise((resolve, reject) => {
       this.clearSchedulers();
-      const stopPromises = Object.keys(pluginInstances).map((plugin) => {
-        return pluginInstances[plugin].destroy()
-          .then(() =>{
-            Promise.resolve();
-          });
-      });
-
-      Promise.all(stopPromises)
-        .then(() => {
-          return resolve();
-        });
+      return resolve();
     });
   }
 };
