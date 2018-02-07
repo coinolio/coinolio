@@ -105,23 +105,30 @@ class Telegram extends Plugin {
    */
   formatSummary(title, data) {
     const latest = data[0];
-    const prev = data[1] || null;
+    const firstBTC = parseFloat(latest.first_asset_value).toPrecision(12);
     const lastBTC = parseFloat(latest.last_asset_value).toPrecision(12);
+    const firstFiat = parseFloat(latest.first_asset_fiat).toFixed(2);
     const lastFiat = parseFloat(latest.last_asset_fiat).toFixed(2);
 
     let msg = `
-<b>${title}</b>\n
-<b>Asset value (BTC):</b> ${lastBTC}
-<b>Asset value (fiat):</b> ${lastFiat}
+<b>${title}</b>
+
+<b>Current Value</b>
+    <b>Fiat:</b> ${lastFiat}
+    <b>BTC:</b> ${lastBTC}
+---
+<b>Details Fiat</b>
+    <b>Entry:</b> ${firstFiat}
+    <b>High:</b> ${parseFloat(latest.max_asset_fiat).toFixed(2)}
+    <b>Low:</b> ${parseFloat(latest.min_asset_fiat).toFixed(2)}
+    <b>Change:</b> ${(100 - (firstFiat / lastFiat) * 100).toFixed(2)}%
+    ---
+<b>Details BTC</b>
+    <b>Entry:</b> ${firstBTC}
+    <b>High:</b> ${parseFloat(latest.max_asset_value).toFixed(2)}
+    <b>Low:</b> ${parseFloat(latest.min_asset_value).toFixed(2)}
+    <b>Change:</b> ${(100 - (firstBTC / lastBTC) * 100).toFixed(2)}%
     `;
-    if (prev) {
-      const prevBTC = parseFloat(prev.last_asset_value).toPrecision(12);
-      const prevFiat = parseFloat(prev.last_asset_fiat).toFixed(2);
-      msg += `
-<b>Difference (BTC):</b> ${(100 - (prevBTC / lastBTC) * 100).toFixed(2)}%
-<b>Difference (fiat):</b> ${(100 - (prevFiat / lastFiat) * 100).toFixed(2)}%
-      `;
-    }
     return msg;
   }
 
