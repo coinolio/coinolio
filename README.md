@@ -3,9 +3,6 @@
 <br>
 
 [![Build status](https://travis-ci.org/coinolio/coinolio.svg?branch=master)](https://travis-ci.org/coinolio/coinolio)
-[![Greenkeeper badge](https://badges.greenkeeper.io/coinolio/coinolio.svg)](https://greenkeeper.io/)
-[![Dependencies Status](https://david-dm.org/coinolio/coinolio/status.svg)](https://david-dm.org/coinolio/coinolio)
-[![Known Vulnerabilities](https://snyk.io/test/github/coinolio/coinolio/badge.svg)](https://snyk.io/test/github/coinolio/coinolio)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d76b09807f3889c65d41/test_coverage)](https://codeclimate.com/github/coinolio/coinolio/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d76b09807f3889c65d41/maintainability)](https://codeclimate.com/github/coinolio/coinolio/maintainability)
 
