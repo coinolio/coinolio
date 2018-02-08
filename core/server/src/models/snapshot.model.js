@@ -81,7 +81,13 @@ const Snapshots = db.Collection.extend({
       , time) AS first_asset_fiat,
       last(
         ((snapshot->>'totalAssetValue')::numeric * (snapshot->'BTC'->>'price')::numeric)
-      , time) AS last_asset_fiat
+      , time) AS last_asset_fiat,
+      last(
+        (snapshot->'BTC'->>'price')::numeric
+      , time) AS last_BTC_fiat,
+      last(
+        (snapshot->'BTC'->>'currency')::text
+      , time) AS last_BTC_currency
       FROM snapshots
       WHERE exchange = 'combined'
         AND time > NOW() - interval '${duration} hours'

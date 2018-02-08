@@ -57,7 +57,7 @@ const events = {
                   .sendPayload(payload);
               }
             } else if (event.type === 'summary' && event.title === job.data.title) {
-              Snapshots.listInterval(job.data.config.interval, job.data.config.duration)
+              Snapshots.listInterval({interval: job.data.config.interval, duration: job.data.config.duration})
                 .then((snapshots) =>{
                   const msg = pluginRef.formatSummary(event.title, snapshots.rows);
                   debug(`Sending '${event.title}' via ${p.name}`);
