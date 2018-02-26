@@ -1,6 +1,3 @@
-// const bittrex = require('../content/exchanges/bittrex');
-// bittrex.init();
-
 const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
@@ -12,21 +9,22 @@ const connectRedis = require('connect-redis');
 const redis = require('./redis');
 const routes = require('./routes');
 
+const corsOptions = {
+  origin(origin, cb) {
+    const whitelist = process.env.CORS_ORIGIN
+      ? process.env.CORS_ORIGIN.split(',')
+      : [];
+    if (process.env.NODE_ENV === 'development') {
+      whitelist.push('http://localhost:8081');
+    }
+    cb(null, whitelist.includes(origin));
+  },
+  credentials: true
+};
+
 const app = express();
 
 app.set('trust proxy', 'loopback');
-
-app.use(
-  cors({
-    origin(origin, cb) {
-      const whitelist = process.env.CORS_ORIGIN
-        ? process.env.CORS_ORIGIN.split(',')
-        : [];
-      cb(null, whitelist.includes(origin));
-    },
-    credentials: true
-  })
-);
 
 app.use(compression());
 app.use(cookieParser());
@@ -41,7 +39,9 @@ app.use(
     secret: process.env.SESSION_SECRET
   })
 );
+app.use(cors(corsOptions));
 
+// app.options('*', cors());
 app.use('/api', routes);
 
 module.exports = app;
