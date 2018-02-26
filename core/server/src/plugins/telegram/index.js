@@ -105,11 +105,15 @@ class Telegram extends Plugin {
    */
   formatSummary(title, data) {
     const latest = data[0];
+    const previous = data[1] || null;
 
     const firstBTC = parseFloat(latest.first_asset_value).toPrecision(12);
     const lastBTC = parseFloat(latest.last_asset_value).toPrecision(12);
     const firstFiat = parseFloat(latest.first_asset_fiat).toFixed(2);
     const lastFiat = parseFloat(latest.last_asset_fiat).toFixed(2);
+
+    const diffFiat = previous ? (100 - (parseFloat(previous.last_asset_fiat).toFixed(2) / lastFiat) * 100).toFixed(2) : 0;
+    const diffHoldings = previous ? (100 - (parseFloat(previous.last_asset_value).toFixed(12) / lastBTC) * 100).toFixed(2) : 0;
 
     let msg = `
 <b>${title}</b>
@@ -122,13 +126,15 @@ class Telegram extends Plugin {
     <b>Entry:</b> ${firstFiat}
     <b>High:</b> ${parseFloat(latest.max_asset_fiat).toFixed(2)}
     <b>Low:</b> ${parseFloat(latest.min_asset_fiat).toFixed(2)}
-    <b>Change:</b> ${(100 - (firstFiat / lastFiat) * 100).toFixed(2)}%
+    <b>Spread:</b> ${(100 - (firstFiat / lastFiat) * 100).toFixed(2)}%
+    <b>Change:</b> ${diffFiat}%
 ---
 <b>Holdings BTC</b>
     <b>Entry:</b> ${firstBTC}
     <b>High:</b> ${parseFloat(latest.max_asset_value).toFixed(12)}
     <b>Low:</b> ${parseFloat(latest.min_asset_value).toFixed(12)}
-    <b>Change:</b> ${(100 - (firstBTC / lastBTC) * 100).toFixed(2)}%
+    <b>Spread:</b> ${(100 - (firstBTC / lastBTC) * 100).toFixed(2)}%
+    <b>Change:</b> ${diffHoldings}%
 ---
 <b>BTC</b>
   <b>Price:</b> ${parseFloat(latest.last_btc_fiat).toFixed(2)} ${latest.last_btc_currency}
