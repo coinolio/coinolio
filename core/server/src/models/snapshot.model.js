@@ -42,14 +42,11 @@ const Snapshots = db.Collection.extend({
    * @return {Promise}
    */
   list({exchange = null, limit = 60} = {}) {
-    return Snapshots
-      .query((qb) => {
-        qb
-          .limit(limit)
-          .select();
-      })
-      .orderBy('time', 'DESC')
-      .fetch();
+    return db.knex.raw(`
+      SELECT * FROM snapshots
+      ORDER BY time DESC
+      LIMIT ${limit}
+    `);
   },
 
   /**

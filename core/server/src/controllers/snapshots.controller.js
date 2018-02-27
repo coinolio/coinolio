@@ -65,7 +65,7 @@ function update(req, res, next) {
  */
 function list(req, res, next) {
   Snapshots.list()
-    .then((snapshots) => res.json(snapshots))
+    .then((snapshots) => res.json(snapshots.rows))
     .catch((e) => next(e));
 }
 

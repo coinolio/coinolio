@@ -39,8 +39,9 @@ services:
       - DATABASE_LOCATION=coinolio
       - REDIS_URL=redis://redis
       - SESSION_SECRET=thisisasecretshhh # UPDATE
-      - TOKEN_SECRET=thisisanothersecret # UPDAT
+      - TOKEN_SECRET=thisisanothersecret # UPDATE
       - DEBUG=*
+      - CORS_ORIGIN=http://localhost:8081 # SET TO DOMAIN
     restart: on-failure
     networks:
       - coinolio_net
