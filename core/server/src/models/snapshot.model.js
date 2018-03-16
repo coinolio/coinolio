@@ -41,7 +41,7 @@ const Snapshots = db.Collection.extend({
    * @param {number} limit - Limit number of snapshots to be returned.
    * @return {Promise}
    */
-  list({exchange = null, limit = 60} = {}) {
+  list({exchange = null, skip= 0, limit = 60} = {}) {
     return db.knex.raw(`
       SELECT * FROM snapshots
       ORDER BY time DESC

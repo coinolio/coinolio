@@ -46,7 +46,7 @@ const Trades = db.Collection.extend({
 
    * @return {Promise}
    */
-  list() {
+  list({exchange = null, skip= 0, limit = 60} = {}) {
     return Trades
       .query((qb) => {
         qb

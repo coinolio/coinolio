@@ -113,7 +113,8 @@ function update(req, res, next) {
  * @param {Function} next - Called when complete.
  */
 function list(req, res, next) {
-  Trades.list()
+  const {limit = 60, skip = 0} = req.query;
+  Trades.list({limit, skip})
     .then((trades) => res.json(trades))
     .catch((e) => next(e));
 }

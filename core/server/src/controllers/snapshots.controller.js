@@ -64,7 +64,8 @@ function update(req, res, next) {
  * @param {Function} next - Called when complete.
  */
 function list(req, res, next) {
-  Snapshots.list()
+  const {limit = 60, skip = 0} = req.query;
+  Snapshots.list({limit, skip})
     .then((snapshots) => res.json(snapshots.rows))
     .catch((e) => next(e));
 }
