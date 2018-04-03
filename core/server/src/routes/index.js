@@ -8,6 +8,7 @@ const exchangesRoutes = require('./exchanges.route');
 const tradesRoutes = require('./trades.route');
 const pluginsRoutes = require('./plugins.route');
 const eventsRoutes = require('./events.route');
+const currenciesRoutes = require('./currencies.route');
 
 router.get('/', (req, res) => {
   res.status(200).send('Welcome to Coinolio API!');
@@ -33,5 +34,8 @@ router.use('/plugins', pluginsRoutes);
 
 // mount user routes at /events
 router.use('/events', eventsRoutes);
+
+// mount user routes at /currencues
+router.use('/currencies', currenciesRoutes);
 
 module.exports = router;
