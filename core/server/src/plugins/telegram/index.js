@@ -107,6 +107,10 @@ class Telegram extends Plugin {
     const latest = data[0];
     const previous = data[1] || null;
 
+    if (!latest) {
+      return 'Not enough data to form summary 😔';
+    }
+
     const firstBTC = parseFloat(latest.first_asset_value).toPrecision(12);
     const lastBTC = parseFloat(latest.last_asset_value).toPrecision(12);
     const firstFiat = parseFloat(latest.first_asset_fiat).toFixed(2);
