@@ -47,7 +47,7 @@
     "eslint-config-google": "^0.9.1",
     "ghooks": "^2.0.2",
     "jest": "^22.0.4",
-    "webpack": "^4.0.1"
+    "webpack": "^4.16.0"
   },
   "dependencies": {
     "bcrypt": "^2.0.0",
