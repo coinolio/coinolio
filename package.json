@@ -40,7 +40,7 @@
     "@commitlint/prompt": "^6.0.2",
     "@commitlint/travis-cli": "^6.0.2",
     "babel-jest": "^22.0.4",
-    "babel-loader": "^7.1.2",
+    "babel-loader": "^8.0.1",
     "commitizen": "^2.9.6",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^4.14.0",
