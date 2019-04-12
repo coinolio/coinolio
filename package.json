@@ -71,7 +71,7 @@
     "jsonwebtoken": "^8.1.1",
     "knex": "^0.14.2",
     "kue": "^0.11.6",
-    "kue-scheduler": "^0.7.4",
+    "kue-scheduler": "^0.8.3",
     "lodash.pickby": "^4.6.0",
     "node-telegram-bot-api": "^0.30.0",
     "passport": "^0.4.0",
