@@ -1,3 +1,5 @@
+# Currently not being maintained :(
+
 <a href="https://github.com/coinolio/Coinolio"><img src="https://user-images.githubusercontent.com/367517/34639792-944b23ba-f2de-11e7-829d-9a090d3f064c.png" alt="Coinolio" height="100"/></a>
 
 <br>
