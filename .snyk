@@ -1,0 +1,38 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-450202:
+    - kue-scheduler > kue > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - bookshelf > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - kue-scheduler > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - express-validation > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - kue > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - request-promise > request-promise-core > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - kue-scheduler > kue-unique > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - kue-scheduler > async > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - knex > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - node-telegram-bot-api > request-promise > request-promise-core > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - kue > pug > pug-filters > constantinople > babel-types > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - kue > pug > pug-code-gen > constantinople > babel-types > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - kue-scheduler > kue > pug > pug-code-gen > constantinople > babel-types > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - kue > pug > pug-code-gen > pug-attrs > constantinople > babel-types > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - kue-scheduler > kue > pug > pug-filters > constantinople > babel-types > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
+    - kue-scheduler > kue > pug > pug-code-gen > pug-attrs > constantinople > babel-types > lodash:
+        patched: '2019-07-05T04:41:35.983Z'
