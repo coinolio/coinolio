@@ -58,7 +58,7 @@
     "bookshelf-modelbase": "^2.10.4",
     "ccxt": "^1.10.775",
     "compression": "^1.7.1",
-    "connect-redis": "^3.3.3",
+    "connect-redis": "3.4.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "debug": "^3.1.0",
