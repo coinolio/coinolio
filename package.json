@@ -73,7 +73,7 @@
     "kue": "^0.11.6",
     "kue-scheduler": "^0.7.4",
     "lodash.pickby": "^4.6.0",
-    "node-telegram-bot-api": "^0.30.0",
+    "node-telegram-bot-api": "^0.40.0",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
