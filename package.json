@@ -55,7 +55,7 @@
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "bookshelf": "^0.13.0",
-    "bookshelf-modelbase": "^2.10.4",
+    "bookshelf-modelbase": "^2.11.0",
     "ccxt": "^1.10.775",
     "compression": "^1.7.1",
     "connect-redis": "^3.3.3",
