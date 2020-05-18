@@ -65,7 +65,7 @@
     "express": "^4.16.2",
     "express-jwt": "^5.3.0",
     "express-session": "^1.15.6",
-    "express-validation": "^1.0.2",
+    "express-validation": "^3.0.3",
     "http-status": "^1.0.1",
     "joi": "^13.1.1",
     "jsonwebtoken": "^8.1.1",
