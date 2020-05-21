@@ -38,7 +38,7 @@
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@commitlint/prompt": "^8.3.5",
-    "@commitlint/travis-cli": "^6.0.2",
+    "@commitlint/travis-cli": "^8.3.5",
     "babel-jest": "^22.0.4",
     "babel-loader": "^7.1.2",
     "commitizen": "^2.9.6",
