@@ -58,7 +58,7 @@
     "bookshelf-modelbase": "^2.10.4",
     "ccxt": "^1.10.775",
     "compression": "^1.7.1",
-    "connect-redis": "^3.3.3",
+    "connect-redis": "^4.0.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "debug": "^3.1.0",
@@ -79,7 +79,7 @@
     "passport-local": "^1.0.0",
     "pg": "^7.4.1",
     "pretty-error": "^2.1.1",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2"
   },
