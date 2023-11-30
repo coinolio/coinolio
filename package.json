@@ -50,13 +50,13 @@
     "webpack": "^4.0.1"
   },
   "dependencies": {
-    "bcrypt": "^2.0.0",
+    "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "bookshelf": "^0.13.0",
     "bookshelf-modelbase": "^2.10.4",
-    "ccxt": "^1.10.775",
+    "ccxt": "^2.4.20",
     "compression": "^1.7.1",
     "connect-redis": "^3.3.3",
     "cookie-parser": "^1.4.3",
